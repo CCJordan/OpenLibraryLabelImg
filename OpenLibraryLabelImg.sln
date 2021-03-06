@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenLibraryLabelImg", "OpenLibraryLabelImg.csproj", "{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0197A8F9-45F3-488F-AF14-B8F8C9F2EC28}
+	EndGlobalSection
+EndGlobal
