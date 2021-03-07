@@ -1,5 +1,5 @@
 ﻿
-namespace OpenLibraryLabelImg
+namespace OpenLibraryLabelImg.UserControls
 {
     partial class CollectionDetailCell
     {

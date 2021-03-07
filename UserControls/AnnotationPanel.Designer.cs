@@ -1,4 +1,4 @@
-﻿namespace OpenLibraryLabelImg
+﻿namespace OpenLibraryLabelImg.UserControls
 {
     partial class AnnotationPanel
     {

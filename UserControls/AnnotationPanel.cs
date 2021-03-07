@@ -5,7 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using OpenLibraryLabelImg.Model;
 
-namespace OpenLibraryLabelImg
+namespace OpenLibraryLabelImg.UserControls
 {
     public partial class AnnotationPanel : Panel
     {
@@ -24,8 +24,6 @@ namespace OpenLibraryLabelImg
         private readonly int hatchingThickness = 2;
 
         public event AnnotationChanged AnnotationUpdated;
-
-        public event AnnotationClassChanged ClassChanged;
 
         public AnnotationPanel(AnnotationClass c)
         {

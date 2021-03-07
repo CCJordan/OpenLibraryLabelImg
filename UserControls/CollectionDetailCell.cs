@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace OpenLibraryLabelImg
+namespace OpenLibraryLabelImg.UserControls
 {
     public partial class CollectionDetailCell : UserControl
     {
