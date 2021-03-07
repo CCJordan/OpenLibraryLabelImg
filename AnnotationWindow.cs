@@ -80,6 +80,13 @@ namespace OpenLibraryLabelImg
             openFolder(workingDirectory);
             annotationClasses = Collection.Classes.ToList();
             images = Collection.Images.ToList();
+
+            Disposed += dispose;
+        }
+
+        private void dispose(object sender, EventArgs e)
+        {
+            pictureBox.Image.Dispose();
         }
 
         private void AnnotationWindow_Shown(object sender, EventArgs e)
@@ -111,7 +118,10 @@ namespace OpenLibraryLabelImg
 
         private void updateImage()
         {
-            pictureBox.Image.Dispose();
+            if (pictureBox.Image != null) {
+                pictureBox.Image.Dispose();
+            }
+        
             currentImage = images[CurrentIndex];
             pictureBox.Image = Image.FromFile(workingDirectory + currentImage.FileName);
             nOfMLabel.Text = $"{CurrentIndex + 1} / {images.Count}";
@@ -139,7 +149,7 @@ namespace OpenLibraryLabelImg
             }
         }
 
-       private void recalculateImage()
+        private void recalculateImage()
         {
             // breite > höhe
             double aspectRatioPictureBox = (double)pictureBox.Width / pictureBox.Height;

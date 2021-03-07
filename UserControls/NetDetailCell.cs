@@ -101,19 +101,31 @@ namespace OpenLibraryLabelImg.UserControls
             .Collections
             .ToList();
 
+            var idMapper = new Dictionary<int, int>();
+
+            var classes = Net.Collections.SelectMany(c => c.Classes).Distinct();
+            string classesFile = "";
+            foreach (var cls in classes)
+            {
+                idMapper.Add(cls.Id, idMapper.Count);
+                classesFile += cls.ClassLabel + "\n";
+            }
+
+            File.WriteAllText(Net.DataFolderPath + "classes.txt", classesFile);
+
             collections.AsParallel()
             .ForAll(c =>
             {
                 c.Images.ToList().AsParallel().ForAll(i => {
                     using (var img = Image.FromFile(c.BasePath + i.FileName)) {
-                        Helpers.resize(img, Net.DataFolderPath + i.FileName, Net.TargetXResolution);
                         var yoloFilePath = Net.DataFolderPath + i.FileName.Remove(i.FileName.LastIndexOf('.')) + ".txt";
                         File.WriteAllText(yoloFilePath,
                             string.Join('\n', 
                                 i.Boxes.Select(b => b.ExportAsYOLO())
-                                .Select(b => $"{b.ClassId} {b.X} {b.Y} {b.Width} {b.Height}")
+                                .Select(b => $"{idMapper[b.ClassId]} {b.X} {b.Y} {b.Width} {b.Height}")
                             )
                         );
+                        Helpers.resize(img, Net.DataFolderPath + i.FileName, Net.TargetXResolution);
                     }
                 });
             });

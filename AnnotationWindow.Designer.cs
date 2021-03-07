@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AnnotationWindow));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.nOfMLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.SelectedClassLabel = new System.Windows.Forms.ToolStripStatusLabel();
@@ -68,7 +67,6 @@
             // pictureBox
             // 
             this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
             this.pictureBox.Location = new System.Drawing.Point(0, 0);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(1121, 788);

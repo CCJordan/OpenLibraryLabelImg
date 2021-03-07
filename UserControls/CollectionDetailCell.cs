@@ -132,21 +132,21 @@ namespace OpenLibraryLabelImg.UserControls
 
         }
 
-        private async void btnImportPictures_Click(object sender, EventArgs e)
+        private void btnImportPictures_Click(object sender, EventArgs e)
         {
             var fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() == DialogResult.OK) {
-                await openFolder(fbd.SelectedPath);
+                openFolder(fbd.SelectedPath);
                 updateNOfMLabel();
                 Helpers.window.UpdateProgressbar(-1, 100);
             }
         }
 
-        private async Task openFolder(string folder)
+        private void openFolder(string folder)
         {
             Helpers.ImportFolder(folder, Collection, false);
 
-            await context.SaveChangesAsync();
+            context.SaveChanges();
         }       
     }
 }

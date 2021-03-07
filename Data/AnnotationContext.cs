@@ -2,6 +2,7 @@
 using OpenLibraryLabelImg.Model;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace OpenLibraryLabelImg.Data
@@ -14,8 +15,6 @@ namespace OpenLibraryLabelImg.Data
         public AnnotationContext(DbContextOptions<AnnotationContext> options)
                : base(options)
         {
-
-            // Server=DESKTOP-BGNCFKH\\MSSQLLAB;Database=OpenLibraryLabelImg;Trusted_Connection=True;MultipleActiveResultSets=true
         }
 
         public virtual DbSet<AnnotationImage> Images { get; set; }
@@ -25,12 +24,14 @@ namespace OpenLibraryLabelImg.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var connectionString = $"Server=DESKTOP-BGNCFKH\\MSSQLLAB;Database=OpenLibraryLabelImg;Trusted_Connection=True;MultipleActiveResultSets=true";
-                optionsBuilder.EnableSensitiveDataLogging();
-                optionsBuilder.UseSqlServer(connectionString);
+            if (!optionsBuilder.IsConfigured) {
+                optionsBuilder.UseSqlite("Filename=TestDatabase.db", options =>
+                {
+                    options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
+                });
             }
+
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

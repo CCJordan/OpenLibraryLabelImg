@@ -26,6 +26,8 @@ namespace OpenLibraryLabelImg
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+            context.Database.EnsureCreated();
+
             foreach (var collection in await context.Collections.Include(c => c.Images).Include(c => c.Classes).ToListAsync())
             {
                 var details = new CollectionDetailCell(collection);
