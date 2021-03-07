@@ -20,9 +20,10 @@ namespace OpenLibraryLabelImg
 
         public static void ImportFolder(string folder, AnnotationCollection collection, bool skipExsisting)
         {
-            if (!folder.EndsWith('\\'))
+            
+            if (!folder.EndsWith(Path.DirectorySeparatorChar))
             {
-                folder += "\\";
+                folder += Path.DirectorySeparatorChar;
             }
             if (!Directory.Exists(folder))
             {

@@ -81,8 +81,8 @@ namespace OpenLibraryLabelImg.UserControls
 
         private void txtPath_Leave(object sender, EventArgs e)
         {
-            if (!txtPath.Text.EndsWith('\\')) {
-                txtPath.Text += "\\";
+            if (!txtPath.Text.EndsWith(Path.DirectorySeparatorChar)) {
+                txtPath.Text += Path.DirectorySeparatorChar;
             }
             Collection.BasePath = txtPath.Text;
             if (!Directory.Exists(Collection.BasePath))
