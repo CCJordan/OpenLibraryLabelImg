@@ -33,11 +33,11 @@ namespace OpenLibraryLabelImg.UserControls
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.txtObjFilePath = new System.Windows.Forms.TextBox();
             this.txtYoloFilePath = new System.Windows.Forms.TextBox();
-            this.btnObjFile = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnObjFilePath = new System.Windows.Forms.Button();
+            this.btnYoloFilePath = new System.Windows.Forms.Button();
+            this.btnWeigthFolderPath = new System.Windows.Forms.Button();
             this.txtWeightFolderPath = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnDataFolderPath = new System.Windows.Forms.Button();
             this.txtDataFolderPath = new System.Windows.Forms.TextBox();
             this.txtTargetXResolution = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -92,35 +92,38 @@ namespace OpenLibraryLabelImg.UserControls
             this.txtYoloFilePath.TabIndex = 3;
             this.txtYoloFilePath.Leave += new System.EventHandler(this.txt_Leave);
             // 
-            // btnObjFile
+            // btnObjFilePath
             // 
-            this.btnObjFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnObjFile.Location = new System.Drawing.Point(444, 46);
-            this.btnObjFile.Name = "btnObjFile";
-            this.btnObjFile.Size = new System.Drawing.Size(34, 34);
-            this.btnObjFile.TabIndex = 4;
-            this.btnObjFile.Text = "..";
-            this.btnObjFile.UseVisualStyleBackColor = true;
+            this.btnObjFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnObjFilePath.Location = new System.Drawing.Point(444, 46);
+            this.btnObjFilePath.Name = "btnObjFilePath";
+            this.btnObjFilePath.Size = new System.Drawing.Size(34, 34);
+            this.btnObjFilePath.TabIndex = 4;
+            this.btnObjFilePath.Text = "..";
+            this.btnObjFilePath.UseVisualStyleBackColor = true;
+            this.btnObjFilePath.Click += new System.EventHandler(this.btnObjFile_Click);
             // 
-            // button1
+            // btnYoloFilePath
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(444, 88);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(34, 34);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "..";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnYoloFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnYoloFilePath.Location = new System.Drawing.Point(444, 88);
+            this.btnYoloFilePath.Name = "btnYoloFilePath";
+            this.btnYoloFilePath.Size = new System.Drawing.Size(34, 34);
+            this.btnYoloFilePath.TabIndex = 5;
+            this.btnYoloFilePath.Text = "..";
+            this.btnYoloFilePath.UseVisualStyleBackColor = true;
+            this.btnYoloFilePath.Click += new System.EventHandler(this.btnYoloFilePath_Click);
             // 
-            // button2
+            // btnWeigthFolderPath
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(444, 128);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(34, 34);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "..";
-            this.button2.UseVisualStyleBackColor = true;
+            this.btnWeigthFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnWeigthFolderPath.Location = new System.Drawing.Point(444, 128);
+            this.btnWeigthFolderPath.Name = "btnWeigthFolderPath";
+            this.btnWeigthFolderPath.Size = new System.Drawing.Size(34, 34);
+            this.btnWeigthFolderPath.TabIndex = 7;
+            this.btnWeigthFolderPath.Text = "..";
+            this.btnWeigthFolderPath.UseVisualStyleBackColor = true;
+            this.btnWeigthFolderPath.Click += new System.EventHandler(this.btnWeigthFolderPath_Click);
             // 
             // txtWeightFolderPath
             // 
@@ -133,15 +136,16 @@ namespace OpenLibraryLabelImg.UserControls
             this.txtWeightFolderPath.TabIndex = 6;
             this.txtWeightFolderPath.Leave += new System.EventHandler(this.txt_Leave);
             // 
-            // button3
+            // btnDataFolderPath
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(444, 168);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(34, 34);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "..";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnDataFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDataFolderPath.Location = new System.Drawing.Point(444, 168);
+            this.btnDataFolderPath.Name = "btnDataFolderPath";
+            this.btnDataFolderPath.Size = new System.Drawing.Size(34, 34);
+            this.btnDataFolderPath.TabIndex = 9;
+            this.btnDataFolderPath.Text = "..";
+            this.btnDataFolderPath.UseVisualStyleBackColor = true;
+            this.btnDataFolderPath.Click += new System.EventHandler(this.btnDataFolderPath_Click);
             // 
             // txtDataFolderPath
             // 
@@ -213,12 +217,12 @@ namespace OpenLibraryLabelImg.UserControls
             this.Controls.Add(this.txtTargetYResolution);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtTargetXResolution);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnDataFolderPath);
             this.Controls.Add(this.txtDataFolderPath);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.btnWeigthFolderPath);
             this.Controls.Add(this.txtWeightFolderPath);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.btnObjFile);
+            this.Controls.Add(this.btnYoloFilePath);
+            this.Controls.Add(this.btnObjFilePath);
             this.Controls.Add(this.txtYoloFilePath);
             this.Controls.Add(this.txtObjFilePath);
             this.Controls.Add(this.txtDescription);
@@ -238,15 +242,16 @@ namespace OpenLibraryLabelImg.UserControls
         private System.Windows.Forms.TextBox txtObjFilePath;
         private System.Windows.Forms.TextBox txtYoloFilePath;
         private System.Windows.Forms.Button btnObjFile;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnYoloFilePath;
+        private System.Windows.Forms.Button btnWeigthFolderPath;
         private System.Windows.Forms.TextBox txtWeightFolderPath;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnDataFolderPath;
         private System.Windows.Forms.TextBox txtDataFolderPath;
         private System.Windows.Forms.TextBox txtTargetXResolution;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtTargetYResolution;
         private System.Windows.Forms.CheckedListBox checkedListBoxCollections;
         private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnObjFilePath;
     }
 }

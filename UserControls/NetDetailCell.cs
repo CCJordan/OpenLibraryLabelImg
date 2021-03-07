@@ -49,6 +49,15 @@ namespace OpenLibraryLabelImg.UserControls
             Net.TargetXResolution = int.Parse(txtTargetXResolution.Text);
             Net.TargetYResolution = int.Parse(txtTargetYResolution.Text);
 
+            if (!Net.DataFolderPath.EndsWith(Path.DirectorySeparatorChar))
+            {
+                Net.DataFolderPath += Path.DirectorySeparatorChar;
+            }
+            if (!Net.WeightFolderPath.EndsWith(Path.DirectorySeparatorChar))
+            {
+                Net.WeightFolderPath += Path.DirectorySeparatorChar;
+            }
+
             var foundIDs = new List<int>();
 
             foreach (string item in checkedListBoxCollections.CheckedItems)
@@ -108,6 +117,74 @@ namespace OpenLibraryLabelImg.UserControls
                     }
                 });
             });
+        }
+
+        private void btnObjFile_Click(object sender, EventArgs e)
+        {
+            using (var ofd = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = ".obj-File|*.obj",
+                Title = "Select obj File",
+                FileName = Net.ObjFilePath
+            })
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    Net.ObjFilePath = ofd.FileName;
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private void btnYoloFilePath_Click(object sender, EventArgs e)
+        {
+            using (var ofd = new OpenFileDialog
+            {
+                Multiselect = false,
+                Filter = ".yolo-File|*.yolo",
+                Title = "Select yolo File",
+                FileName = Net.YoloFilePath
+            })
+            {
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    Net.YoloFilePath = ofd.FileName;
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private void btnWeigthFolderPath_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog
+            {
+                SelectedPath = Net.WeightFolderPath,
+                RootFolder = Environment.SpecialFolder.MyComputer
+            })
+            {
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    Net.WeightFolderPath = fbd.SelectedPath;
+                    txt_Leave(null, null);
+                }
+            }
+        }
+
+        private void btnDataFolderPath_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog
+            {
+                SelectedPath = Net.DataFolderPath,
+                RootFolder = Environment.SpecialFolder.MyComputer
+            })
+            {
+                if (fbd.ShowDialog() == DialogResult.OK)
+                {
+                    Net.DataFolderPath = fbd.SelectedPath;
+                    txt_Leave(null, null);
+                }
+            }
         }
     }
 }
