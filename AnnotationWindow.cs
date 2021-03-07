@@ -19,7 +19,7 @@ namespace OpenLibraryLabelImg
         private AnnotationPanel unfinishedPnl;
         private readonly List<AnnotationPanel> annotationPanels = new List<AnnotationPanel>();
         private readonly List<AnnotationImage> images;
-
+        private AnnotationPanel selectedPanel;
         private readonly AnnotationContext context = new AnnotationContext();
 
         private readonly List<AnnotationClass> annotationClasses;
@@ -94,9 +94,9 @@ namespace OpenLibraryLabelImg
             int i = 0;
             foreach (AnnotationClass c in annotationClasses)
             {
-                classMenu.Items.Insert(i++, new ToolStripLabel(c.ClassLabel));
+                classMenu.Items.Insert(i++, new ToolStripMenuItem(c.ClassLabel));
             }
-
+            classMenu.ItemClicked += ContextMenuStrip_ItemClicked;
             pictureBox.Invalidate(true);
             pictureBox.Update();
 
@@ -132,15 +132,15 @@ namespace OpenLibraryLabelImg
                     panel.Visible = false;
                     pictureBox.Controls.Add(panel);
                     panel.AnnotationUpdated += updateAnnotation;
-                    panel.ClassChanged += changeAnnotationBoxClass;
                     panel.ContextMenuStrip = classMenu;
+                    panel.MouseClick += annotationPanelSelected;
                 }
 
                 pictureBox_SizeChanged(null, null);
             }
         }
 
-        private void recalculateImage()
+       private void recalculateImage()
         {
             // breite > höhe
             double aspectRatioPictureBox = (double)pictureBox.Width / pictureBox.Height;
@@ -217,18 +217,31 @@ namespace OpenLibraryLabelImg
                 pnl.GrappedSize = new Point(15, 15);
                 pnl.SetBounds(e.X, e.Y, 15, 15);
                 pnl.AnnotationUpdated += updateAnnotation;
-                pnl.ClassChanged += changeAnnotationBoxClass;
                 pnl.ContextMenuStrip = classMenu;
-
+                // pnl.ContextMenuStrip.Click += ContextMenuStrip_ItemClicked;
+                pnl.MouseMove += annotationPanelSelected;
                 unfinishedPnl = pnl;
             }
         }
 
-        private void changeAnnotationBoxClass(AnnotationBox box, string className)
+        private void annotationPanelSelected(object sender, EventArgs e) {
+            selectedPanel = (AnnotationPanel)sender;
+        }
+
+        private void ContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            box.Class = context.Classes.Where(c => c.ClassLabel == className).First();
-            currentImage.State = AnnotationState.Annotated;
-            context.SaveChanges();
+            if (e.ClickedItem.Text == "Löschen")
+            {
+                pictureBox.Controls.Remove(selectedPanel);
+                selectedPanel.Dispose();
+            }
+            else
+            {
+                selectedPanel.AnnotationBox.Class = context.Classes.Where(c => c.ClassLabel == e.ClickedItem.Text).First();
+                currentImage.State = AnnotationState.Annotated;
+                context.SaveChanges();
+            }
+            pictureBox.Invalidate();
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)

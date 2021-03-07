@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -36,7 +37,6 @@ namespace OpenLibraryLabelImg
             MouseMove += mouseMoveHandler;
             MouseUp += mouseUpHandler;
             DoubleBuffered = false;
-            ContextMenuStripChanged += AttatchToContextMenu;
         }
 
         protected override CreateParams CreateParams
@@ -74,10 +74,14 @@ namespace OpenLibraryLabelImg
                 var hatchingColor = Color.FromArgb(0x7A00_0000 | AnnotationBox.Class.Color.ToArgb());
                 var hatchingPen = new Pen(hatchingColor, hatchingThickness);
 
-                for (int i = hatchingDistance; i < Math.Max(Width, Height) * 2; i += hatchingDistance) 
+                List<Point> lines = new List<Point>();
+
+                for (int i = hatchingDistance; i < Math.Max(Width, Height) * 2; i += hatchingDistance)
                 {
-                    e.Graphics.DrawLine(hatchingPen, new Point(i, 0), new Point(0, i));
+                    lines.Add(new Point(i, 0));
+                    lines.Add(new Point(0, i));
                 }
+                e.Graphics.DrawLines(hatchingPen, lines.ToArray());
             }
 
             var label = AnnotationBox.Class.ClassLabel + ", " + debugInfo;
@@ -88,30 +92,6 @@ namespace OpenLibraryLabelImg
 
         protected override void OnPaint(PaintEventArgs e) {
   
-        }
-
-        public void AttatchToContextMenu(object sender, EventArgs e) {
-            if (ContextMenuStrip == null) {
-                return;
-            }
-            ContextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
-        }
-
-        private void ContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            if (e.ClickedItem.Text == "Löschen")
-            {
-                if (Parent != null) {
-                    Parent.Controls.Remove(this);
-                }
-                
-                Dispose();
-            }
-            else 
-            {
-                ClassChanged(AnnotationBox, e.ClickedItem.Text);
-            }
-            Invalidate();
         }
 
         internal void mouseUpHandler(object sender, MouseEventArgs e)

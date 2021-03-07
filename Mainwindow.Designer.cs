@@ -1,5 +1,4 @@
-﻿
-namespace OpenLibraryLabelImg
+﻿namespace OpenLibraryLabelImg
 {
     partial class MainWindow
     {
