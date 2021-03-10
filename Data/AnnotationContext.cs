@@ -35,7 +35,7 @@ namespace OpenLibraryLabelImg.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AnnotationClass>()
-                .HasIndex(c => c.ClassLabel).IsUnique();
+                .HasIndex(c => c.Title).IsUnique();
 
             modelBuilder.Entity<ClassMap>().HasKey(cm => new { cm.AnnotationClassId, cm.MappedId });
         }

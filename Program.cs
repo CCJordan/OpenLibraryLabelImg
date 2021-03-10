@@ -1,3 +1,4 @@
+using OpenLibraryLabelImg.Forms;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,6 +10,8 @@ namespace OpenLibraryLabelImg
 {
     static class Program
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -30,7 +33,16 @@ namespace OpenLibraryLabelImg
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.Run(new MainWindow());
+
+            try
+            {
+                Application.Run(new MainWindow());
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e);
+            }
+            
         }
     }
 }

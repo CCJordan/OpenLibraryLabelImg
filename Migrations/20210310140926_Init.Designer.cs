@@ -9,7 +9,7 @@ using OpenLibraryLabelImg.Data;
 namespace OpenLibraryLabelImg.Migrations
 {
     [DbContext(typeof(AnnotationContext))]
-    [Migration("20210310125112_Init")]
+    [Migration("20210310140926_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,18 +87,18 @@ namespace OpenLibraryLabelImg.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ClassLabel")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("ColorArgb")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassLabel")
+                    b.HasIndex("Title")
                         .IsUnique();
 
                     b.ToTable("Classes");

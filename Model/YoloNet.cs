@@ -13,8 +13,7 @@ namespace OpenLibraryLabelImg.Model
         public string YoloFilePath { get; set; }
         public string WeightFolderPath { get; set; }
         public string DataFolderPath { get; set; }
-        public int TargetXResolution { get; set; }
-        public int TargetYResolution { get; set; }
+        public int TargetResolution { get; set; }
         public ICollection<AnnotationCollection> Collections { get; set; }
         public ICollection<ClassMap> ClassMapping { get; set; }
 

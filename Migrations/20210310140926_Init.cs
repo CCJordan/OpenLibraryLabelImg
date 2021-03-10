@@ -12,7 +12,7 @@ namespace OpenLibraryLabelImg.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ClassLabel = table.Column<string>(type: "TEXT", nullable: true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
                     ColorArgb = table.Column<int>(type: "INTEGER", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -202,9 +202,9 @@ namespace OpenLibraryLabelImg.Migrations
                 column: "NetsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Classes_ClassLabel",
+                name: "IX_Classes_Title",
                 table: "Classes",
-                column: "ClassLabel",
+                column: "Title",
                 unique: true);
 
             migrationBuilder.CreateIndex(

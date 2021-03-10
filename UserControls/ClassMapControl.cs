@@ -21,7 +21,7 @@ namespace OpenLibraryLabelImg.UserControls
             InitializeComponent();
             MaxId = maxId;
             Map = new ClassMap() { AnnotationClassId = mappedClass.Id, AnnotationClass = mappedClass, MappedId = mappedId };
-            lblClassLabel.Text = Map.AnnotationClass.ClassLabel;
+            lblClassLabel.Text = Map.AnnotationClass.Title;
             cmbxMapId.Text = Map.MappedId.ToString();
             for (int i = 0; i < maxId; i++)
             {
@@ -34,7 +34,7 @@ namespace OpenLibraryLabelImg.UserControls
             InitializeComponent();
             MaxId = maxId;
             Map = map;
-            lblClassLabel.Text = Map.AnnotationClass.ClassLabel;
+            lblClassLabel.Text = Map.AnnotationClass.Title;
             cmbxMapId.Text = Map.MappedId.ToString();
             for (int i = 0; i <= maxId; i++)
             {
@@ -51,7 +51,7 @@ namespace OpenLibraryLabelImg.UserControls
             }
             else
             {
-                MessageBox.Show($"Your input for the class {Map.AnnotationClass.ClassLabel} could not be parsed.");
+                MessageBox.Show($"Your input for the class {Map.AnnotationClass.Title} could not be parsed.");
             }
         }
     }

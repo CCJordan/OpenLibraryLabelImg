@@ -66,14 +66,14 @@ namespace OpenLibraryLabelImg.UserControls
 
             checkedListBoxClasses.Items.Clear();
 
-            checkedListBoxClasses.Items.AddRange(context.Classes.AsNoTracking().Select(c => c.ClassLabel).ToArray());
+            checkedListBoxClasses.Items.AddRange(context.Classes.AsNoTracking().Select(c => c.Title).ToArray());
             if (col == null) {
                 return;
             }
             for (int i = 0; i < checkedListBoxClasses.Items.Count; i++)
             {
                 var item = checkedListBoxClasses.Items[i] as string;
-                checkedListBoxClasses.SetItemChecked(i, col.Classes.Any(c => c.ClassLabel == item));
+                checkedListBoxClasses.SetItemChecked(i, col.Classes.Any(c => c.Title == item));
             }
         }
 
@@ -127,7 +127,7 @@ namespace OpenLibraryLabelImg.UserControls
             Collection.Classes.Clear();
             foreach (string item in checkedListBoxClasses.CheckedItems)
             {
-                var cls = context.Classes.Where(c => c.ClassLabel == item).FirstOrDefault();
+                var cls = context.Classes.Where(c => c.Title == item).FirstOrDefault();
                 Collection.Classes.Add(cls);
             }
             context.SaveChanges();

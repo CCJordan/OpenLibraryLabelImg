@@ -1,5 +1,5 @@
 ﻿
-namespace OpenLibraryLabelImg
+namespace OpenLibraryLabelImg.Forms
 {
     partial class ClassMapperWindow
     {

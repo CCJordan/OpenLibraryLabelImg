@@ -6,17 +6,25 @@ using System.Linq;
 using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using OpenLibraryLabelImg.UserControls;
+using System.Reflection;
 
-namespace OpenLibraryLabelImg
+namespace OpenLibraryLabelImg.Forms
 {
     public partial class MainWindow : Form
     {
+        private const int scrollBarWidth = 35;
         private readonly AnnotationContext context = new AnnotationContext();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         private AnnotationClass selectedClass;
         private AnnotationCollection selectedCollection;
         private YoloNet selectedNetwork;
         private AnnotationWindow window;
-
+        // TODO: Add NLog
+        // TODO: Write Documentation
+        // TODO: Write ReadMe File
+        // TODO: Internationalisierung
+        // TODO: ContextMenu testen
         public MainWindow()
         {
             InitializeComponent();
@@ -26,32 +34,43 @@ namespace OpenLibraryLabelImg
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            context.Database.Migrate();
+            Logger.Info($"{Assembly.GetExecutingAssembly().GetName()} starting up.");
 
-            foreach (var collection in await context.Collections.Include(c => c.Images).Include(c => c.Classes).ToListAsync())
+            Logger.Info($"Database Version {context.Database.GetAppliedMigrations().LastOrDefault()}, {context.Database.GetPendingMigrations().Count()} Migrations pending.");
+            context.Database.Migrate();
+            Logger.Info($"Migration complete, Current Version {context.Database.GetAppliedMigrations().Last()}");
+
+            var collections = await context.Collections.Include(c => c.Images).Include(c => c.Classes).ToListAsync();
+            Logger.Debug($"Loaded {collections.Count} collections");
+            foreach (var collection in collections)
             {
                 var details = new CollectionDetailCell(collection);
                 details.Click += selectCollection;
                 details.CollectionChanged += updateCollections;
                 details.DoubleClick += openCollection;
                 pnlCollectionDetails.Controls.Add(details);
+                details.Width = pnlCollectionDetails.Width - scrollBarWidth;
             }
 
-            foreach (var cls in await context.Classes.ToListAsync())
+            var classes = await context.Classes.ToListAsync();
+            Logger.Debug($"Loaded {classes.Count} classes");
+            foreach (var cls in classes)
             {
                 var details = new ClassDetailCell(cls, context);
                 details.Click += selectClass;
                 details.ClassLabelChanged += updateClassLists;
                 pnlClasses.Controls.Add(details);
-                details.Width = pnlClasses.Width - 35;
+                details.Width = pnlClasses.Width - scrollBarWidth;
             }
 
-            foreach (var net in await context.Nets.Include(n => n.Collections).Include(n => n.ClassMapping).ToListAsync())
+            var nets = await context.Nets.Include(n => n.Collections).Include(n => n.ClassMapping).ToListAsync();
+            Logger.Debug($"Loaded {nets.Count} nets");
+            foreach (var net in nets)
             {
                 var details = new NetDetailCell(net, context);
                 details.Click += selectNet;
                 pnlNetworks.Controls.Add(details);
-                details.Width = pnlNetworks.Width - 35;
+                details.Width = pnlNetworks.Width - scrollBarWidth;
             }
         }
 
@@ -106,9 +125,12 @@ namespace OpenLibraryLabelImg
             if (context.Classes.Count() == 0)
             {
                 MessageBox.Show("There are no classes yet. Please create at least one to continue.");
+                Logger.Debug($"User tried to open a collection without classes.");
+                return;
             }
 
             var details = sender as CollectionDetailCell;
+            Logger.Debug($"Opening collection {details.Collection.Id} ");
             if (window != null) {
                 window.Dispose();
             }
@@ -116,24 +138,30 @@ namespace OpenLibraryLabelImg
             window = new AnnotationWindow(details.Collection);
             window.Show();
             window.FormClosed += annotationWindowClosed;
+            Logger.Debug($"Opened collection \"{details.Collection.Title}\" containing {details.Collection.Images.Count} and {details.Collection.Classes.Count} classes.");
         }
 
         private void annotationWindowClosed(object sender, EventArgs e) {
+            Logger.Debug($"Annotation Window closed");
             updateCollections();
             window.Dispose();
+            Logger.Debug($"Annotation Window closed, window disposed, data saved");
         }
 
         private void btnAddCollection_Click(object sender, EventArgs e)
         {
+            Logger.Debug($"Adding collection.");
             var details = new CollectionDetailCell();
             details.CollectionChanged += updateCollections;
             details.Click += selectCollection;
             details.DoubleClick += openCollection;
             pnlCollectionDetails.Controls.Add(details);
+            Logger.Debug($"Added collection.");
         }
 
         private void btnAddClass_Click(object sender, EventArgs e)
         {
+            Logger.Debug("Adding class");
             var Class = new AnnotationClass();
             context.Classes.Add(Class);
 
@@ -142,6 +170,7 @@ namespace OpenLibraryLabelImg
             details.ClassLabelChanged += updateClassLists;
             pnlClasses.Controls.Add(details);
             details.Width = pnlClasses.Width;
+            Logger.Debug("Added class");
         }
 
         private async void btnRemoveClass_Click(object sender, EventArgs e)
@@ -151,15 +180,19 @@ namespace OpenLibraryLabelImg
                 return;
             }
 
-            if (MessageBox.Show($"Do you want to delete {selectedClass.ClassLabel}?","Delete Class", MessageBoxButtons.YesNo) != DialogResult.Yes) {
+            Logger.Debug($"Removing class {selectedClass.Id}, requesting confirmation.");
+            if (MessageBox.Show($"Do you want to delete {selectedClass.Title}?","Delete Class", MessageBoxButtons.YesNo) != DialogResult.Yes) {
+                Logger.Debug($"Not confirmed, leaving.");
                 return;
             }
 
+            Logger.Debug($"Confirmed.");
             foreach (ClassDetailCell ctrl in pnlClasses.Controls)
             {
                 if (ctrl.Class == selectedClass)
                 {
                     pnlClasses.Controls.Remove(ctrl);
+                    Logger.Debug($"Removed ClassDetailCell.");
                     break;
                 }
             }
@@ -167,11 +200,14 @@ namespace OpenLibraryLabelImg
             context.Classes.Remove(selectedClass);
             selectedClass = null;
             await context.SaveChangesAsync();
+            Logger.Debug($"Saved Changes.");
 
             updateClassLists();
+            Logger.Debug($"Classlists updated.");
         }
 
         public void UpdateProgressbar(int value, int max) {
+            Logger.Debug($"Updating Progressbar {value} / {max}");
             if (value != -1)
             {
                 toolStripProgressBar.Maximum = max;
@@ -207,16 +243,20 @@ namespace OpenLibraryLabelImg
             {
                 return;
             }
+            Logger.Debug($"Removing collection {selectedCollection.Id}, requesting confirmation.");
             if (MessageBox.Show($"Do you want to delete {selectedCollection.Title}?", "Delete Collection", MessageBoxButtons.YesNo) != DialogResult.Yes)
             {
+                Logger.Debug($"Not confirmed, leaving.");
                 return;
             }
 
+            Logger.Debug($"Confirmed.");
             foreach (CollectionDetailCell ctrl in pnlCollectionDetails.Controls)
             {
                 if (ctrl.Collection.Id == selectedCollection.Id)
                 {
                     pnlCollectionDetails.Controls.Remove(ctrl);
+                    Logger.Debug($"Removed CollectionDetailCell.");
                     break;
                 }
             }
@@ -224,18 +264,23 @@ namespace OpenLibraryLabelImg
             context.Collections.Remove(context.Collections.Find(selectedCollection.Id));
             selectedCollection = null;
             await context.SaveChangesAsync();
+            Logger.Debug($"Saved Changes.");
+
             updateCollections();
+            Logger.Debug($"Collections updated.");
+
         }
 
         private void btnAddNetwork_Click(object sender, EventArgs e)
         {
+            Logger.Debug($"Adding Net");
             var net = new YoloNet();
             context.Nets.Add(net);
 
             var details = new NetDetailCell(net, context);
             details.Click += selectNet;
             pnlNetworks.Controls.Add(details);
-            details.Width = pnlNetworks.Width;
+            details.Width = pnlNetworks.Width ;
         }
 
         private async void btnRemoveNetwork_Click(object sender, EventArgs e)
@@ -244,6 +289,8 @@ namespace OpenLibraryLabelImg
             {
                 return;
             }
+            Logger.Debug($"Removing net {selectedNetwork.Id}, requesting confirmation.");
+
             if (MessageBox.Show($"Do you want to delete {selectedNetwork.Title}?", "Delete Network", MessageBoxButtons.YesNo) != DialogResult.Yes)
             {
                 return;
@@ -253,6 +300,7 @@ namespace OpenLibraryLabelImg
                 if (ctrl.Net == selectedNetwork)
                 {
                     pnlNetworks.Controls.Remove(ctrl);
+                    Logger.Debug($"Removed NetDetailCell.");
                     break;
                 }
             }
@@ -260,6 +308,7 @@ namespace OpenLibraryLabelImg
             context.Nets.Remove(selectedNetwork);
             selectedNetwork = null;
             await context.SaveChangesAsync();
+            Logger.Debug($"Saved Changes.");
         }
     }
 }

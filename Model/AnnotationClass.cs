@@ -10,7 +10,7 @@ namespace OpenLibraryLabelImg.Model
     {
         public int Id { get; set; }
 
-        public string ClassLabel { get; set; }
+        public string Title { get; set; }
         public Int32 ColorArgb
         {
             get

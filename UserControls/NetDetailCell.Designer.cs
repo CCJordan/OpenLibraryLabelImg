@@ -39,10 +39,10 @@
             this.btnDataFolderPath = new System.Windows.Forms.Button();
             this.txtDataFolderPath = new System.Windows.Forms.TextBox();
             this.txtTargetXResolution = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtTargetYResolution = new System.Windows.Forms.TextBox();
             this.checkedListBoxCollections = new System.Windows.Forms.CheckedListBox();
             this.btnExport = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // txtTitle
@@ -159,30 +159,12 @@
             // 
             // txtTargetXResolution
             // 
-            this.txtTargetXResolution.Location = new System.Drawing.Point(14, 216);
+            this.txtTargetXResolution.Location = new System.Drawing.Point(305, 214);
             this.txtTargetXResolution.Name = "txtTargetXResolution";
-            this.txtTargetXResolution.PlaceholderText = "Width";
-            this.txtTargetXResolution.Size = new System.Drawing.Size(81, 31);
+            this.txtTargetXResolution.PlaceholderText = "Max width or height";
+            this.txtTargetXResolution.Size = new System.Drawing.Size(173, 31);
             this.txtTargetXResolution.TabIndex = 10;
             this.txtTargetXResolution.Leave += new System.EventHandler(this.txt_Leave);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(101, 219);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(20, 25);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "x";
-            // 
-            // txtTargetYResolution
-            // 
-            this.txtTargetYResolution.Location = new System.Drawing.Point(127, 216);
-            this.txtTargetYResolution.Name = "txtTargetYResolution";
-            this.txtTargetYResolution.PlaceholderText = "Height";
-            this.txtTargetYResolution.Size = new System.Drawing.Size(81, 31);
-            this.txtTargetYResolution.TabIndex = 12;
-            this.txtTargetYResolution.Leave += new System.EventHandler(this.txt_Leave);
             // 
             // checkedListBoxCollections
             // 
@@ -207,14 +189,32 @@
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(14, 217);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(267, 25);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Target Resolution (Square) im px";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(248, 409);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(112, 34);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "Train";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // NetDetailCell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.checkedListBoxCollections);
-            this.Controls.Add(this.txtTargetYResolution);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.txtTargetXResolution);
             this.Controls.Add(this.btnDataFolderPath);
             this.Controls.Add(this.txtDataFolderPath);
@@ -246,10 +246,10 @@
         private System.Windows.Forms.Button btnDataFolderPath;
         private System.Windows.Forms.TextBox txtDataFolderPath;
         private System.Windows.Forms.TextBox txtTargetXResolution;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtTargetYResolution;
         private System.Windows.Forms.CheckedListBox checkedListBoxCollections;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnObjFilePath;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }
