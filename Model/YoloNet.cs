@@ -19,8 +19,6 @@ namespace OpenLibraryLabelImg.Model
         public ICollection<ClassMap> ClassMapping { get; set; }
 
         public YoloNet() {
-            Collections = new List<AnnotationCollection>();
-            ClassMapping = new List<ClassMap>();
         }
     }
 }

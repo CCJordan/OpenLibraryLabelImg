@@ -97,6 +97,8 @@ namespace OpenLibraryLabelImg.UserControls
             .Include(n => n.Collections)
             .ThenInclude(c => c.Images)
             .ThenInclude(i => i.Boxes)
+            .Include(n => n.Collections)
+            .ThenInclude(c => c.Classes)
             .First(n => n.Id == Net.Id)
             .Collections
             .ToList();
@@ -112,24 +114,26 @@ namespace OpenLibraryLabelImg.UserControls
                 .SelectMany(c => c.Classes)
                 .Distinct()
                 .Select(c => new ClassMap() { AnnotationClass = c, AnnotationClassId = c.Id, MappedId = 0 })
-                .ToList(); ;
+                .ToList();
+
+                ClassMapperWindow classMapperDialog = new ClassMapperWindow(Net.ClassMapping.ToList());
+
+                if (classMapperDialog.ShowDialog() == DialogResult.Cancel)
+                {
+                    return;
+                }
+                Net.ClassMapping.Clear();
+                context.SaveChanges();
+                Net.ClassMapping = classMapperDialog.Mapping;
+                context.SaveChanges();
             }
-            ClassMapperWindow classMapperDialog = new ClassMapperWindow(Net.ClassMapping.ToList());
-
-            if (classMapperDialog.ShowDialog() == DialogResult.Cancel) {
-                return;
-            }
-            Net.ClassMapping = classMapperDialog.Mapping;
-
-            context.SaveChanges();
-
-            var idMapper = Net.ClassMapping.ToDictionary(m => m.MappedId, m => m.AnnotationClassId);
+           
+            var idMapper = Net.ClassMapping.ToDictionary(m => m.AnnotationClassId, m => m.MappedId);
 
             var classes = Net.Collections.SelectMany(c => c.Classes).Distinct();
             string classesFile = "";
             foreach (var cls in classes)
             {
-                idMapper.Add(cls.Id, idMapper.Count);
                 classesFile += cls.ClassLabel + "\n";
             }
 
@@ -142,9 +146,9 @@ namespace OpenLibraryLabelImg.UserControls
                     using (var img = Image.FromFile(c.BasePath + i.FileName)) {
                         var yoloFilePath = Net.DataFolderPath + i.FileName.Remove(i.FileName.LastIndexOf('.')) + ".txt";
                         File.WriteAllText(yoloFilePath,
-                            string.Join('\n', 
+                            string.Join("", 
                                 i.Boxes.Select(b => b.ExportAsYOLO())
-                                .Select(b => $"{idMapper[b.ClassId]} {b.X} {b.Y} {b.Width} {b.Height}")
+                                .Select(b => $"{idMapper[b.ClassId]} {b.X} {b.Y} {b.Width} {b.Height}\n")
                             )
                         );
                         Helpers.resize(img, Net.DataFolderPath + i.FileName, Net.TargetXResolution);
@@ -165,8 +169,8 @@ namespace OpenLibraryLabelImg.UserControls
             {
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    Net.ObjFilePath = ofd.FileName;
-                    context.SaveChanges();
+                    txtObjFilePath.Text = ofd.FileName;
+                    txt_Leave(null, null);
                 }
             }
         }
@@ -183,9 +187,10 @@ namespace OpenLibraryLabelImg.UserControls
             {
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
-                    Net.YoloFilePath = ofd.FileName;
-                    context.SaveChanges();
+                    txtYoloFilePath.Text = ofd.FileName;
+                    txt_Leave(null, null);
                 }
+
             }
         }
 
@@ -193,13 +198,13 @@ namespace OpenLibraryLabelImg.UserControls
         {
             using (var fbd = new FolderBrowserDialog
             {
-                SelectedPath = Net.WeightFolderPath,
+                SelectedPath = txtWeightFolderPath.Text,
                 RootFolder = Environment.SpecialFolder.MyComputer
             })
             {
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    Net.WeightFolderPath = fbd.SelectedPath;
+                    txtWeightFolderPath.Text = fbd.SelectedPath;
                     txt_Leave(null, null);
                 }
             }
@@ -209,13 +214,13 @@ namespace OpenLibraryLabelImg.UserControls
         {
             using (var fbd = new FolderBrowserDialog
             {
-                SelectedPath = Net.DataFolderPath,
+                SelectedPath = txtDataFolderPath.Text,
                 RootFolder = Environment.SpecialFolder.MyComputer
             })
             {
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    Net.DataFolderPath = fbd.SelectedPath;
+                    txtDataFolderPath.Text = fbd.SelectedPath;
                     txt_Leave(null, null);
                 }
             }

@@ -32,8 +32,8 @@ namespace OpenLibraryLabelImg.Model
                 Width = Width,
                 Height = Height
             };
-            r.X += Width / 2;
-            r.Y += Height / 2;
+            r.X = X + Width / 2;
+            r.Y = Y + Height / 2;
             return r;
         }
         public void ConvertFromYOLO() {

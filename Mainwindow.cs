@@ -49,7 +49,7 @@ namespace OpenLibraryLabelImg
                 details.Width = pnlClasses.Width - 35;
             }
 
-            foreach (var net in await context.Nets.Include(n => n.Collections).ToListAsync())
+            foreach (var net in await context.Nets.Include(n => n.Collections).Include(n => n.ClassMapping).ToListAsync())
             {
                 var details = new NetDetailCell(net, context);
                 details.Click += selectNet;

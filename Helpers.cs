@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Drawing;
-using System.Threading.Tasks;
+﻿using CsvHelper;
+using CsvHelper.Configuration;
 using OpenLibraryLabelImg.Model;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
-using CsvHelper.Configuration;
-using CsvHelper;
 using System.Windows.Forms;
-using System.Drawing.Drawing2D;
 
 namespace OpenLibraryLabelImg
 {
@@ -147,17 +145,21 @@ namespace OpenLibraryLabelImg
                     Delimiter = " ",
                     HasHeaderRecord = false,
                     NewLine = "\n",
-                    MissingFieldFound = null,
-                    
                 };
 
-                using (var csvReader = new CsvReader(reader, config))
+                try
                 {
-                    csvReader.Context.RegisterClassMap<AnnotationBoxMap>();
+                    using (var csvReader = new CsvReader(reader, config))
+                    {
+                        csvReader.Context.RegisterClassMap<AnnotationBoxMap>();
 
-                    var result = csvReader.GetRecords<AnnotationBox>().ToList();
-                    result.ForEach(b => b.ConvertFromYOLO());
-                    return result;
+                        var result = csvReader.GetRecords<AnnotationBox>().ToList();
+                        result.ForEach(b => b.ConvertFromYOLO());
+                        return result;
+                    }
+                }
+                catch (Exception ex) {
+                    return new List<AnnotationBox>();
                 }
             }
         }
