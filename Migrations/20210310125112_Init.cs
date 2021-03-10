@@ -10,11 +10,11 @@ namespace OpenLibraryLabelImg.Migrations
                 name: "Classes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ClassLabel = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ColorArgb = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ClassLabel = table.Column<string>(type: "TEXT", nullable: true),
+                    ColorArgb = table.Column<int>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -25,11 +25,11 @@ namespace OpenLibraryLabelImg.Migrations
                 name: "Collections",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BasePath = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    BasePath = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -40,16 +40,16 @@ namespace OpenLibraryLabelImg.Migrations
                 name: "Nets",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ObjFilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    YoloFilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    WeightFolderPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DataFolderPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TargetXResolution = table.Column<int>(type: "int", nullable: false),
-                    TargetYResolution = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", nullable: true),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    ObjFilePath = table.Column<string>(type: "TEXT", nullable: true),
+                    YoloFilePath = table.Column<string>(type: "TEXT", nullable: true),
+                    WeightFolderPath = table.Column<string>(type: "TEXT", nullable: true),
+                    DataFolderPath = table.Column<string>(type: "TEXT", nullable: true),
+                    TargetXResolution = table.Column<int>(type: "INTEGER", nullable: false),
+                    TargetYResolution = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,8 +60,8 @@ namespace OpenLibraryLabelImg.Migrations
                 name: "AnnotationClassAnnotationCollection",
                 columns: table => new
                 {
-                    ClassesId = table.Column<int>(type: "int", nullable: false),
-                    CollectionsId = table.Column<int>(type: "int", nullable: false)
+                    ClassesId = table.Column<int>(type: "INTEGER", nullable: false),
+                    CollectionsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,14 +84,12 @@ namespace OpenLibraryLabelImg.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<int>(type: "int", nullable: false),
-                    ResolutionX = table.Column<int>(type: "int", nullable: false),
-                    ResolutionY = table.Column<int>(type: "int", nullable: false),
-                    Excluded = table.Column<bool>(type: "bit", nullable: false),
-                    AnnotationCollectionId = table.Column<int>(type: "int", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FileName = table.Column<string>(type: "TEXT", nullable: true),
+                    State = table.Column<int>(type: "INTEGER", nullable: false),
+                    Excluded = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AnnotationCollectionId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -108,8 +106,8 @@ namespace OpenLibraryLabelImg.Migrations
                 name: "AnnotationCollectionYoloNet",
                 columns: table => new
                 {
-                    CollectionsId = table.Column<int>(type: "int", nullable: false),
-                    NetsId = table.Column<int>(type: "int", nullable: false)
+                    CollectionsId = table.Column<int>(type: "INTEGER", nullable: false),
+                    NetsId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -129,17 +127,42 @@ namespace OpenLibraryLabelImg.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClassMap",
+                columns: table => new
+                {
+                    AnnotationClassId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MappedId = table.Column<int>(type: "INTEGER", nullable: false),
+                    YoloNetId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassMap", x => new { x.AnnotationClassId, x.MappedId });
+                    table.ForeignKey(
+                        name: "FK_ClassMap_Classes_AnnotationClassId",
+                        column: x => x.AnnotationClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClassMap_Nets_YoloNetId",
+                        column: x => x.YoloNetId,
+                        principalTable: "Nets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AnnotationBox",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Width = table.Column<double>(type: "float", nullable: false),
-                    Height = table.Column<double>(type: "float", nullable: false),
-                    X = table.Column<double>(type: "float", nullable: false),
-                    Y = table.Column<double>(type: "float", nullable: false),
-                    ClassId = table.Column<int>(type: "int", nullable: false),
-                    AnnotaionImageId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Width = table.Column<double>(type: "REAL", nullable: false),
+                    Height = table.Column<double>(type: "REAL", nullable: false),
+                    X = table.Column<double>(type: "REAL", nullable: false),
+                    Y = table.Column<double>(type: "REAL", nullable: false),
+                    ClassId = table.Column<int>(type: "INTEGER", nullable: false),
+                    AnnotaionImageId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -182,8 +205,12 @@ namespace OpenLibraryLabelImg.Migrations
                 name: "IX_Classes_ClassLabel",
                 table: "Classes",
                 column: "ClassLabel",
-                unique: true,
-                filter: "[ClassLabel] IS NOT NULL");
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClassMap_YoloNetId",
+                table: "ClassMap",
+                column: "YoloNetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_AnnotationCollectionId",
@@ -201,6 +228,9 @@ namespace OpenLibraryLabelImg.Migrations
 
             migrationBuilder.DropTable(
                 name: "AnnotationCollectionYoloNet");
+
+            migrationBuilder.DropTable(
+                name: "ClassMap");
 
             migrationBuilder.DropTable(
                 name: "Images");

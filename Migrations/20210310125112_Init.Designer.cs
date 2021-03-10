@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OpenLibraryLabelImg.Data;
@@ -10,24 +9,22 @@ using OpenLibraryLabelImg.Data;
 namespace OpenLibraryLabelImg.Migrations
 {
     [DbContext(typeof(AnnotationContext))]
-    [Migration("20210306151633_Init")]
+    [Migration("20210310125112_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.3")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "5.0.4");
 
             modelBuilder.Entity("AnnotationClassAnnotationCollection", b =>
                 {
                     b.Property<int>("ClassesId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("CollectionsId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ClassesId", "CollectionsId");
 
@@ -39,10 +36,10 @@ namespace OpenLibraryLabelImg.Migrations
             modelBuilder.Entity("AnnotationCollectionYoloNet", b =>
                 {
                     b.Property<int>("CollectionsId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("NetsId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("CollectionsId", "NetsId");
 
@@ -55,26 +52,25 @@ namespace OpenLibraryLabelImg.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("AnnotaionImageId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("ClassId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<double>("Height")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double>("Width")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double>("X")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.Property<double>("Y")
-                        .HasColumnType("float");
+                        .HasColumnType("REAL");
 
                     b.HasKey("Id");
 
@@ -89,23 +85,21 @@ namespace OpenLibraryLabelImg.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("ClassLabel")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("ColorArgb")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClassLabel")
-                        .IsUnique()
-                        .HasFilter("[ClassLabel] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Classes");
                 });
@@ -114,17 +108,16 @@ namespace OpenLibraryLabelImg.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("BasePath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -135,26 +128,19 @@ namespace OpenLibraryLabelImg.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("AnnotationCollectionId")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("Excluded")
-                        .HasColumnType("bit");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("FileName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ResolutionX")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ResolutionY")
-                        .HasColumnType("int");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("State")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -163,36 +149,53 @@ namespace OpenLibraryLabelImg.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("OpenLibraryLabelImg.Model.ClassMap", b =>
+                {
+                    b.Property<int>("AnnotationClassId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MappedId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("YoloNetId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AnnotationClassId", "MappedId");
+
+                    b.HasIndex("YoloNetId");
+
+                    b.ToTable("ClassMap");
+                });
+
             modelBuilder.Entity("OpenLibraryLabelImg.Model.YoloNet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("DataFolderPath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ObjFilePath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("TargetXResolution")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("TargetYResolution")
-                        .HasColumnType("int");
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("WeightFolderPath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("YoloFilePath")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -255,6 +258,21 @@ namespace OpenLibraryLabelImg.Migrations
                         .HasForeignKey("AnnotationCollectionId");
                 });
 
+            modelBuilder.Entity("OpenLibraryLabelImg.Model.ClassMap", b =>
+                {
+                    b.HasOne("OpenLibraryLabelImg.Model.AnnotationClass", "AnnotationClass")
+                        .WithMany()
+                        .HasForeignKey("AnnotationClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OpenLibraryLabelImg.Model.YoloNet", null)
+                        .WithMany("ClassMapping")
+                        .HasForeignKey("YoloNetId");
+
+                    b.Navigation("AnnotationClass");
+                });
+
             modelBuilder.Entity("OpenLibraryLabelImg.Model.AnnotationCollection", b =>
                 {
                     b.Navigation("Images");
@@ -263,6 +281,11 @@ namespace OpenLibraryLabelImg.Migrations
             modelBuilder.Entity("OpenLibraryLabelImg.Model.AnnotationImage", b =>
                 {
                     b.Navigation("Boxes");
+                });
+
+            modelBuilder.Entity("OpenLibraryLabelImg.Model.YoloNet", b =>
+                {
+                    b.Navigation("ClassMapping");
                 });
 #pragma warning restore 612, 618
         }

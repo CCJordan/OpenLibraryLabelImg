@@ -14,7 +14,7 @@ namespace OpenLibraryLabelImg.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "5.0.3");
+                .HasAnnotation("ProductVersion", "5.0.4");
 
             modelBuilder.Entity("AnnotationClassAnnotationCollection", b =>
                 {
@@ -136,12 +136,6 @@ namespace OpenLibraryLabelImg.Migrations
 
                     b.Property<string>("FileName")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("ResolutionX")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ResolutionY")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("State")
                         .HasColumnType("INTEGER");

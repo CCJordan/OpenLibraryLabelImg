@@ -112,15 +112,8 @@ namespace OpenLibraryLabelImg
                         {
                             FileName = fileName,
                             State = AnnotationState.Unseen,
-                            ResolutionX = img.Width,
-                            ResolutionY = img.Height
                         };
                         collection.Images.Add(aImg);
-                    }
-                    else
-                    {
-                        aImg.ResolutionX = img.Width;
-                        aImg.ResolutionY = img.Height;
                     }
 
                     var classFileName = filePath.Remove(filePath.LastIndexOf('.')) + ".txt";

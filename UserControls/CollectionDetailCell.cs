@@ -20,10 +20,14 @@ namespace OpenLibraryLabelImg.UserControls
         public event Action CollectionChanged;
         public CollectionDetailCell() {
             InitializeComponent();
-            Collection = new AnnotationCollection();
-            if (!DesignMode) {
-                context.Collections.Add(Collection);
-            }
+            var collection = new AnnotationCollection();
+            
+            context.Collections.Add(collection);
+            context.SaveChanges();
+            Collection = context.Collections
+                .Include(c => c.Classes)
+                .Include(c => c.Images)
+                .FirstOrDefault(c => c.Id == collection.Id);
             updateNOfMLabel();
 
             RefreshClasses();

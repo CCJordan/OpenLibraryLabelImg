@@ -26,10 +26,7 @@ namespace OpenLibraryLabelImg
 
         private async void Form1_Load(object sender, EventArgs e)
         {
-            context.Database.EnsureCreated();
-            //if (context.Database.GetPendingMigrations().Count() > 0) {
-            //    context.Database.Migrate();
-            //}
+            context.Database.Migrate();
 
             foreach (var collection in await context.Collections.Include(c => c.Images).Include(c => c.Classes).ToListAsync())
             {

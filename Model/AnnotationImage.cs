@@ -10,8 +10,6 @@ namespace OpenLibraryLabelImg.Model
         public string FileName { get; set; }
         public ICollection<AnnotationBox> Boxes { get; set; }
         public AnnotationState State { get; set; }
-        public int ResolutionX { get; set; }
-        public int ResolutionY { get; set; }
         public bool Excluded { get; set; }
 
         public AnnotationImage() {

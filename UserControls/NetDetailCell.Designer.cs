@@ -1,5 +1,4 @@
-﻿
-namespace OpenLibraryLabelImg.UserControls
+﻿namespace OpenLibraryLabelImg.UserControls
 {
     partial class NetDetailCell
     {

@@ -26,6 +26,7 @@ namespace OpenLibraryLabelImg.Data
                 {
                     options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
                 });
+                
             }
 
             base.OnConfiguring(optionsBuilder);

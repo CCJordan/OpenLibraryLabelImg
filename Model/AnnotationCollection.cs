@@ -22,8 +22,6 @@ namespace OpenLibraryLabelImg.Model
         public string BasePath { get; set; }
 
         public AnnotationCollection() {
-            Images = new List<AnnotationImage>();
-            Classes = new List<AnnotationClass>();
         }
     }
 }
