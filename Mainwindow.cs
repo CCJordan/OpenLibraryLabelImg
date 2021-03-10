@@ -27,6 +27,9 @@ namespace OpenLibraryLabelImg
         private async void Form1_Load(object sender, EventArgs e)
         {
             context.Database.EnsureCreated();
+            //if (context.Database.GetPendingMigrations().Count() > 0) {
+            //    context.Database.Migrate();
+            //}
 
             foreach (var collection in await context.Collections.Include(c => c.Images).Include(c => c.Classes).ToListAsync())
             {
@@ -43,7 +46,7 @@ namespace OpenLibraryLabelImg
                 details.Click += selectClass;
                 details.ClassLabelChanged += updateClassLists;
                 pnlClasses.Controls.Add(details);
-                details.Width = pnlClasses.Width;
+                details.Width = pnlClasses.Width - 35;
             }
 
             foreach (var net in await context.Nets.Include(n => n.Collections).ToListAsync())
@@ -51,7 +54,7 @@ namespace OpenLibraryLabelImg
                 var details = new NetDetailCell(net, context);
                 details.Click += selectNet;
                 pnlNetworks.Controls.Add(details);
-                details.Width = pnlNetworks.Width;
+                details.Width = pnlNetworks.Width - 35;
             }
         }
 
@@ -117,10 +120,12 @@ namespace OpenLibraryLabelImg
             window.Show();
             window.FormClosed += annotationWindowClosed;
         }
+
         private void annotationWindowClosed(object sender, EventArgs e) {
             updateCollections();
             window.Dispose();
         }
+
         private void btnAddCollection_Click(object sender, EventArgs e)
         {
             var details = new CollectionDetailCell();

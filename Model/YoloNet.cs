@@ -16,9 +16,11 @@ namespace OpenLibraryLabelImg.Model
         public int TargetXResolution { get; set; }
         public int TargetYResolution { get; set; }
         public ICollection<AnnotationCollection> Collections { get; set; }
+        public ICollection<ClassMap> ClassMapping { get; set; }
 
         public YoloNet() {
             Collections = new List<AnnotationCollection>();
+            ClassMapping = new List<ClassMap>();
         }
     }
 }

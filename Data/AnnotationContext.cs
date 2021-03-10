@@ -25,7 +25,7 @@ namespace OpenLibraryLabelImg.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured) {
-                optionsBuilder.UseSqlite("Filename=TestDatabase.db", options =>
+                optionsBuilder.UseSqlite("Filename=OpenLibraryLabelImg.db", options =>
                 {
                     options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
                 });
@@ -38,6 +38,8 @@ namespace OpenLibraryLabelImg.Data
         {
             modelBuilder.Entity<AnnotationClass>()
                 .HasIndex(c => c.ClassLabel).IsUnique();
+
+            modelBuilder.Entity<ClassMap>().HasKey(cm => new { cm.AnnotationClassId, cm.MappedId });
         }
     }
 }

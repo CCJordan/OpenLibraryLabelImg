@@ -93,7 +93,7 @@ namespace OpenLibraryLabelImg.UserControls
 
         private void btnExport_Click(object sender, EventArgs e)
         {
-            var collections = context.Nets.AsNoTracking()
+            var collections = context.Nets
             .Include(n => n.Collections)
             .ThenInclude(c => c.Images)
             .ThenInclude(i => i.Boxes)
@@ -101,7 +101,29 @@ namespace OpenLibraryLabelImg.UserControls
             .Collections
             .ToList();
 
-            var idMapper = new Dictionary<int, int>();
+            // Test every class which is in a collection is in classMapping
+            bool mapComplete = Net.Collections
+                .SelectMany(c => c.Classes)
+                .Distinct()
+                .All(c => Net.ClassMapping.Any(m => m.AnnotationClass == c));
+
+            if (!mapComplete) {
+                Net.ClassMapping = Net.Collections
+                .SelectMany(c => c.Classes)
+                .Distinct()
+                .Select(c => new ClassMap() { AnnotationClass = c, AnnotationClassId = c.Id, MappedId = 0 })
+                .ToList(); ;
+            }
+            ClassMapperWindow classMapperDialog = new ClassMapperWindow(Net.ClassMapping.ToList());
+
+            if (classMapperDialog.ShowDialog() == DialogResult.Cancel) {
+                return;
+            }
+            Net.ClassMapping = classMapperDialog.Mapping;
+
+            context.SaveChanges();
+
+            var idMapper = Net.ClassMapping.ToDictionary(m => m.MappedId, m => m.AnnotationClassId);
 
             var classes = Net.Collections.SelectMany(c => c.Classes).Distinct();
             string classesFile = "";

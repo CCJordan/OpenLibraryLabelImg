@@ -75,7 +75,7 @@
             // 
             this.pnlCollectionDetails.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.pnlCollectionDetails.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.pnlCollectionDetails.AutoScroll = true;
             this.pnlCollectionDetails.Location = new System.Drawing.Point(12, 30);
             this.pnlCollectionDetails.Name = "pnlCollectionDetails";
             this.pnlCollectionDetails.Size = new System.Drawing.Size(688, 915);
@@ -108,6 +108,7 @@
             this.pnlClasses.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlClasses.AutoScroll = true;
             this.pnlClasses.Location = new System.Drawing.Point(-4, 0);
             this.pnlClasses.Name = "pnlClasses";
             this.pnlClasses.Size = new System.Drawing.Size(550, 908);
@@ -167,6 +168,7 @@
             this.pnlNetworks.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlNetworks.AutoScroll = true;
             this.pnlNetworks.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.pnlNetworks.Location = new System.Drawing.Point(6, 6);
             this.pnlNetworks.Name = "pnlNetworks";

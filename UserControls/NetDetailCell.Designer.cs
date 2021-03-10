@@ -241,7 +241,6 @@ namespace OpenLibraryLabelImg.UserControls
         private System.Windows.Forms.TextBox txtDescription;
         private System.Windows.Forms.TextBox txtObjFilePath;
         private System.Windows.Forms.TextBox txtYoloFilePath;
-        private System.Windows.Forms.Button btnObjFile;
         private System.Windows.Forms.Button btnYoloFilePath;
         private System.Windows.Forms.Button btnWeigthFolderPath;
         private System.Windows.Forms.TextBox txtWeightFolderPath;

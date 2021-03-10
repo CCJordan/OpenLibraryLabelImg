@@ -30,17 +30,49 @@ namespace OpenLibraryLabelImg
                 return;
             }
 
-            string[] fs = Directory.GetFiles(folder);
-            for (int i = 0; i < fs.Length; i++)
+            string[] files = Directory.GetFiles(folder);
+            List<Model.ClassMap> mapping;
+            Dictionary<int, int> idMapper = null;
+            var idsFromFiles = new List<int>();
+            bool needsMapping = false;
+            // Scan for txt files, if encountered request classmapping from user
+            for (int i = 0; i < files.Length; i++)
             {
-                string f = fs[i];
-                window.UpdateProgressbar(i, fs.Length);
+                string filePath = files[i];
+                if (filePath[filePath.LastIndexOf('.')..] == ".txt")
+                {
+                    needsMapping = true;
+                    idsFromFiles.AddRange(importBoxes(filePath).Select(b => b.ClassId).Distinct().Where(cid => !idsFromFiles.Contains(cid)));
+                }
+            }
+
+            if (collection.Classes.Count < idsFromFiles.Count) {
+                MessageBox.Show($"The folder you are trying to import contains {idsFromFiles.Count} classes, which is more than your collection has. Please add {idsFromFiles.Count - collection.Classes.Count} classes to this collection.");
+                return;
+            }
+
+            if (needsMapping) {
+                mapping = collection.Classes.Select(c => new Model.ClassMap() { AnnotationClass = c, AnnotationClassId = c.Id, MappedId = 0 }).ToList();
+                var classMapperDialog = new ClassMapperWindow(mapping);
+                if (classMapperDialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+                mapping = classMapperDialog.Mapping;
+                idMapper = mapping.ToDictionary(m => m.MappedId, m => m.AnnotationClassId);
+            }
+
+            // Import
+            for (int i = 0; i < files.Length; i++)
+            {
+                string filePath = files[i];
+                window.UpdateProgressbar(i, files.Length);
                 // Check file extension
-                if (!SupportedFileTypes.Contains(f[f.LastIndexOf('.')..])) {
+                if (!SupportedFileTypes.Contains(filePath[filePath.LastIndexOf('.')..])) {
                     continue;
                 }
 
-                var fileName = f[folder.Length..];
+                var fileName = filePath[folder.Length..];
                 var targetFile = collection.BasePath + fileName;
                 if (folder != collection.BasePath)
                 {
@@ -66,7 +98,7 @@ namespace OpenLibraryLabelImg
                         }
                     }
 
-                    File.Copy(f, targetFile, true);
+                    File.Copy(filePath, targetFile, true);
                 }
 
                 var aImg = collection.Images.FirstOrDefault(img => img.FileName == fileName);
@@ -93,11 +125,11 @@ namespace OpenLibraryLabelImg
                         aImg.ResolutionY = img.Height;
                     }
 
-                    var classFileName = f.Remove(f.LastIndexOf('.')) + ".txt";
+                    var classFileName = filePath.Remove(filePath.LastIndexOf('.')) + ".txt";
                     if (File.Exists(classFileName))
                     {
                         importBoxes(classFileName).ForEach(b => {
-                            b.Class = collection.Classes.First(c => c.Id == b.ClassId + 1);
+                            b.Class = collection.Classes.First(c => c.Id == idMapper[b.ClassId]);
                             aImg.Boxes.Add(b);
                         });
                         aImg.State = AnnotationState.AutoAnnotated;
