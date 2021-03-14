@@ -143,16 +143,15 @@ namespace OpenLibraryLabelImg.Forms
                     panel.Visible = false;
                     pictureBox.Controls.Add(panel);
                     panel.AnnotationUpdated += updateAnnotation;
-                    panel.ContextMenuStrip = new ContextMenuStrip(panel.Container);
-                    panel.MouseClick += annotationPanelSelected;
+                    panel.ContextMenuStrip = new ContextMenuStrip();
 
                     int i = 0;
                     foreach (AnnotationClass c in annotationClasses)
                     {
                         panel.ContextMenuStrip.Items.Insert(i++, new ToolStripMenuItem(c.Title));
                     }
+                    panel.ContextMenuStrip.Items.Insert(i, new ToolStripMenuItem("Delete"));
                     panel.ContextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
-                    panel.ContextMenuStrip.Parent = panel;
                 }
 
                 pictureBox_SizeChanged(null, null);
@@ -237,37 +236,46 @@ namespace OpenLibraryLabelImg.Forms
                 pnl.GrappedSize = new Point(15, 15);
                 pnl.SetBounds(e.X, e.Y, 15, 15);
                 pnl.AnnotationUpdated += updateAnnotation;
-                pnl.ContextMenuStrip = classMenu;
-                // pnl.ContextMenuStrip.Click += ContextMenuStrip_ItemClicked;
-                pnl.MouseMove += annotationPanelSelected;
+                pnl.ContextMenuStrip = new ContextMenuStrip();
+                int i = 0;
+                foreach (AnnotationClass c in annotationClasses)
+                {
+                    pnl.ContextMenuStrip.Items.Insert(i++, new ToolStripMenuItem(c.Title));
+                }
+                pnl.ContextMenuStrip.Items.Insert(i, new ToolStripMenuItem("Delete"));
+                pnl.ContextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
+                
                 unfinishedPnl = pnl;
             }
-        }
-
-        private void annotationPanelSelected(object sender, EventArgs e) {
-            selectedPanel = (AnnotationPanel)sender;
         }
 
         private void ContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
             var p = (ContextMenuStrip)sender;
 
-            AnnotationPanel parent = ((AnnotationPanel)p.Parent);
+            AnnotationPanel parent = ((AnnotationPanel)p.SourceControl);
             
 
-            if (e.ClickedItem.Text == "Löschen")
+            if (e.ClickedItem.Text == "Delete")
             {
                 Logger.Debug($"Deleting Annotation {parent.AnnotationBox.Id} with class id {parent.AnnotationBox.Class.Id}");
-                pictureBox.Controls.Remove(p.Parent);    
+                pictureBox.Controls.Remove(p.SourceControl);
+                
+                var img = parent.AnnotationBox.AnnotaionImage;
+                parent.AnnotationBox.AnnotaionImage = null;
+                parent.AnnotationBox.AnnotaionImageId = 0;
+                img.Boxes.Remove(parent.AnnotationBox);
+
+                p.SourceControl.Dispose();
             }
             else
             {
                 Logger.Debug($"Changing Annotation {parent.AnnotationBox.Id} with class id {parent.AnnotationBox.Class.Id} to class {e.ClickedItem.Text}");
                 parent.AnnotationBox.Class = context.Classes.Where(c => c.Title == e.ClickedItem.Text).First();
-                currentImage.State = AnnotationState.Annotated;
-                context.SaveChanges();
             }
-            pictureBox.Invalidate();
+            currentImage.State = AnnotationState.Annotated;
+            context.SaveChanges();
+            pictureBox_SizeChanged(null, null);
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -292,6 +300,10 @@ namespace OpenLibraryLabelImg.Forms
 
         private void pictureBox_SizeChanged(object sender, EventArgs e)
         {
+            if (pictureBox.Image == null) {
+                return;
+            }
+
             recalculateImage();
             foreach (AnnotationPanel item in pictureBox.Controls)
             {

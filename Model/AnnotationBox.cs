@@ -16,12 +16,13 @@ namespace OpenLibraryLabelImg.Model
         public double X { get; set; }
         
         public double Y { get; set; }
-        
-        
+
         public int ClassId { get; set; }
+
         public virtual AnnotationClass Class { get; set; }
 
         public int AnnotaionImageId { get; set; }
+
         public AnnotationImage AnnotaionImage { get; set; }
 
         public AnnotationBox ExportAsYOLO() {
