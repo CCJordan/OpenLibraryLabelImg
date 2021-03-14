@@ -20,9 +20,6 @@ namespace OpenLibraryLabelImg
         {
             var culture = CultureInfo.GetCultureInfo("en-US");
 
-            // this may fail sometimes: (see Drachenkatze's comment below)
-            // var culture = new CultureInfo("en-US");
-
             //Culture for any thread
             CultureInfo.DefaultThreadCurrentCulture = culture;
 
@@ -32,12 +29,10 @@ namespace OpenLibraryLabelImg
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-
             try
             {
                 MainWindow mainForm = new MainWindow();
                 Application.Run(mainForm);
-                mainForm.Show();
             }
             catch (Exception e)
             {
