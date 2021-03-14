@@ -1,4 +1,5 @@
 ﻿using OpenLibraryLabelImg.Data;
+using System.Windows.Forms.DataVisualization.Charting;
 using OpenLibraryLabelImg.Model;
 using System;
 using System.Drawing;
@@ -7,6 +8,7 @@ using System.Windows.Forms;
 using OpenLibraryLabelImg.UserControls;
 using System.Reflection;
 using System.Data.Entity;
+using AnnotationCollection = OpenLibraryLabelImg.Model.AnnotationCollection;
 
 namespace OpenLibraryLabelImg.Forms
 {
@@ -20,11 +22,9 @@ namespace OpenLibraryLabelImg.Forms
         private AnnotationCollection selectedCollection;
         private YoloNet selectedNetwork;
         private AnnotationWindow window;
-        // TODO: Add NLog
         // TODO: Write Documentation
         // TODO: Write ReadMe File
         // TODO: Internationalisierung
-        // TODO: ContextMenu testen
         public MainWindow()
         {
             InitializeComponent();
@@ -36,11 +36,16 @@ namespace OpenLibraryLabelImg.Forms
         {
             Logger.Info($"{Assembly.GetExecutingAssembly().GetName()} starting up.");
 
-            var collections = context.Collections.Include(c => c.Classes).Include(c => c.Images).ToList();
+            var collections = context.Collections.Include(c => c.Classes).Include(c => c.Images).Include("Images.Boxes").Include("Images.Boxes.Class").ToList();
             Logger.Debug($"Loaded {collections.Count} collections");
             foreach (var collection in collections)
             {
                 var details = new CollectionDetailCell(collection);
+                if (selectedCollection == null) {
+                    selectedCollection = collection;
+                    details.BackColor = Color.DarkGray;
+                    updateCollectionDiagrams();
+                }
                 details.Click += selectCollection;
                 details.CollectionChanged += updateCollections;
                 details.DoubleClick += openCollection;
@@ -77,6 +82,7 @@ namespace OpenLibraryLabelImg.Forms
                 {
                     ctrl.BackColor = Color.DarkGray;
                     selectedCollection = ctrl.Collection;
+                    updateCollectionDiagrams();
                 }
                 else
                 {
@@ -99,6 +105,36 @@ namespace OpenLibraryLabelImg.Forms
                     ctrl.BackColor = Color.FromKnownColor(KnownColor.Control);
                 }
             }
+        }
+
+        private void updateCollectionDiagrams() {
+            var collection = context.Collections.Include(c => c.Classes).Include(c => c.Images).Include("Images.Boxes").Include("Images.Boxes.Class").First(c => c.Id == selectedCollection.Id);
+            classDistributionChart.Series.Clear();
+            var images = collection.Images;
+            var classes = collection.Images.SelectMany(img => img.Boxes).Select(b => b.Class);
+            int i = 0;
+            foreach (var c in collection.Classes)
+            {
+                var s1 = new Series(c.Title) { Color = c.Color, AxisLabel = c.Title, ChartType = SeriesChartType.Column };
+                s1.Points.AddXY(i++, classes.Where(cl => cl.Id == c.Id).Count());
+                classDistributionChart.Series.Add(s1);
+                classDistributionChart.Legends.Clear();
+            }
+
+            chartAnnotationState.Series.Clear();
+            i = 0;
+            
+            var s = new Series("Annotated") { Color = Color.Green, AxisLabel = "Annotated", ChartType = SeriesChartType.Pie };
+            s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.Annotated).Count());
+            chartAnnotationState.Series.Add(s);
+            s = new Series("AutoAnnotated") { Color = Color.Green, AxisLabel = "AutoAnnotated", ChartType = SeriesChartType.Pie };
+            s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.AutoAnnotated).Count());
+            chartAnnotationState.Series.Add(s);
+            s = new Series("Unseen") { Color = Color.Green, AxisLabel = "Unseen", ChartType = SeriesChartType.Pie };
+            s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.Unseen).Count());
+            chartAnnotationState.Series.Add(s);
+            chartAnnotationState.Legends.Clear();
+            
         }
 
         private void selectNet(object sender, EventArgs e)

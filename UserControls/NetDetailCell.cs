@@ -142,10 +142,15 @@ namespace OpenLibraryLabelImg.UserControls
 
             Logger.Debug($"Exporting: {collections.Count} collection with {collections.SelectMany(c => c.Images).Count()} images and {collections.SelectMany(c => c.Images).SelectMany(i => i.Boxes).Count()} annotations");
 
-            collections.AsParallel()
+            collections
+            .AsParallel()
             .ForAll(c =>
             {
-                c.Images.ToList().AsParallel().ForAll(i => {
+                c.Images
+                .Where(i => i.State == AnnotationState.Annotated)
+                .ToList()
+                .AsParallel()
+                .ForAll(i => {
                     using (var img = Image.FromFile(c.BasePath + i.FileName)) {
                         var yoloFilePath = Net.DataFolderPath + i.FileName.Remove(i.FileName.LastIndexOf('.')) + ".txt";
                         File.WriteAllText(yoloFilePath,
@@ -158,6 +163,7 @@ namespace OpenLibraryLabelImg.UserControls
                     }
                 });
             });
+            Logger.Debug($"Export done");
         }
 
         private void btnObjFile_Click(object sender, EventArgs e)
@@ -227,6 +233,81 @@ namespace OpenLibraryLabelImg.UserControls
                     txt_Leave(null, null);
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var collections = context.Nets
+                .Include("Collections")
+                .Include("Collections.Images")
+                .Include("Collections.Images.Boxes")
+                .Include("Collections.Classes")
+                .First(n => n.Id == Net.Id)
+                .Collections
+                .ToList();
+            Logger.Info($"Starting annotation export for collections {string.Join(", ", collections.Select(c => c.Id))}");
+
+            // Test every class which is in a collection is in classMapping
+            bool mapComplete = Net.Collections
+                .SelectMany(c => c.Classes)
+                .Distinct()
+                .All(c => Net.ClassMapping.Any(m => m.AnnotationClass == c));
+
+            Logger.Debug($"mapComplete: {mapComplete}");
+
+            if (!mapComplete)
+            {
+                Net.ClassMapping = Net.Collections
+                .SelectMany(c => c.Classes)
+                .Distinct()
+                .Select(c => new ClassMap() { AnnotationClass = c, AnnotationClassId = c.Id, MappedId = 0 })
+                .ToList();
+
+                ClassMapperWindow classMapperDialog = new ClassMapperWindow(Net.ClassMapping.ToList());
+
+                if (classMapperDialog.ShowDialog() == DialogResult.Cancel)
+                {
+                    return;
+                }
+                Net.ClassMapping.Clear();
+                context.SaveChanges();
+                Net.ClassMapping = classMapperDialog.Mapping;
+                context.SaveChanges();
+            }
+
+            var idMapper = Net.ClassMapping.ToDictionary(m => m.AnnotationClassId, m => m.MappedId);
+
+            var classes = Net.Collections.SelectMany(c => c.Classes).Distinct();
+
+            var mappedIds = idMapper.Keys.ToList();
+            mappedIds.Sort();
+
+            File.WriteAllText(Net.DataFolderPath + "classes.txt", string.Join("", mappedIds.Select(id => classes.First(c => c.Id == id).Title + "\n")));
+
+            Logger.Debug($"Exporting: {collections.Count} collection with {collections.SelectMany(c => c.Images).Count()} images and {collections.SelectMany(c => c.Images).SelectMany(i => i.Boxes).Count()} annotations");
+
+            collections
+            .AsParallel()
+            .ForAll(c =>
+            {
+                c.Images
+                .Where(i => i.State == AnnotationState.Annotated)
+                .ToList()
+                .AsParallel()
+                .ForAll(i => {
+                    using (var img = Image.FromFile(c.BasePath + i.FileName))
+                    {
+                        var yoloFilePath = Net.DataFolderPath + i.FileName.Remove(i.FileName.LastIndexOf('.')) + ".txt";
+                        File.WriteAllText(yoloFilePath,
+                            string.Join("",
+                                i.Boxes.Select(b => b.ExportAsYOLO())
+                                .Select(b => $"{idMapper[b.ClassId]} {b.X} {b.Y} {b.Width} {b.Height}\n")
+                            )
+                        );
+                    }
+                });
+            });
+            Logger.Debug($"Export done");
         }
     }
 }

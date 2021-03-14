@@ -151,6 +151,20 @@ namespace OpenLibraryLabelImg.UserControls
             Helpers.ImportFolder(folder, Collection, false);
 
             context.SaveChanges();
-        }       
+        }
+
+        private void btnImportAnnotations_Click(object sender, EventArgs e)
+        {
+            var fbd = new FolderBrowserDialog();
+            if (Directory.Exists(Collection.BasePath))
+            {
+                fbd.SelectedPath = Collection.BasePath;
+            }
+            fbd.RootFolder = Environment.SpecialFolder.MyComputer;
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                Helpers.ImportFolderAnnotations(fbd.SelectedPath, Collection);
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace OpenLibraryLabelImg.Forms
         private AnnotationPanel unfinishedPnl;
         private readonly List<AnnotationPanel> annotationPanels = new List<AnnotationPanel>();
         private readonly List<AnnotationImage> images;
-        private AnnotationPanel selectedPanel;
+
         private readonly AnnotationContext context = new AnnotationContext();
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 

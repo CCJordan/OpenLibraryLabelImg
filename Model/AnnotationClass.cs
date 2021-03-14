@@ -30,5 +30,14 @@ namespace OpenLibraryLabelImg.Model
 
         [NotMapped]
         public Color Color { get; set; }
+
+        public bool Equals(AnnotationClass c1, AnnotationClass c2) {
+            return c1.Id == c2.Id;
+        }
+
+        public int GetHashCode(AnnotationClass c1)
+        {
+            return c1.GetHashCode();
+        }
     }
 }

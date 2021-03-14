@@ -42,16 +42,22 @@
             this.checkedListBoxCollections = new System.Windows.Forms.CheckedListBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtTitle
             // 
             this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTitle.Location = new System.Drawing.Point(14, 11);
+            this.txtTitle.Location = new System.Drawing.Point(194, 9);
+            this.txtTitle.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(464, 31);
+            this.txtTitle.Size = new System.Drawing.Size(237, 26);
             this.txtTitle.TabIndex = 0;
             this.txtTitle.Leave += new System.EventHandler(this.txt_Leave);
             // 
@@ -60,10 +66,11 @@
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(14, 259);
+            this.txtDescription.Location = new System.Drawing.Point(13, 242);
+            this.txtDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(272, 144);
+            this.txtDescription.Size = new System.Drawing.Size(245, 109);
             this.txtDescription.TabIndex = 1;
             this.txtDescription.Leave += new System.EventHandler(this.txt_Leave);
             // 
@@ -71,9 +78,10 @@
             // 
             this.txtObjFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtObjFilePath.Location = new System.Drawing.Point(14, 48);
+            this.txtObjFilePath.Location = new System.Drawing.Point(194, 43);
+            this.txtObjFilePath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtObjFilePath.Name = "txtObjFilePath";
-            this.txtObjFilePath.Size = new System.Drawing.Size(424, 31);
+            this.txtObjFilePath.Size = new System.Drawing.Size(201, 26);
             this.txtObjFilePath.TabIndex = 2;
             this.txtObjFilePath.Leave += new System.EventHandler(this.txt_Leave);
             // 
@@ -81,18 +89,20 @@
             // 
             this.txtYoloFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtYoloFilePath.Location = new System.Drawing.Point(14, 90);
+            this.txtYoloFilePath.Location = new System.Drawing.Point(194, 77);
+            this.txtYoloFilePath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtYoloFilePath.Name = "txtYoloFilePath";
-            this.txtYoloFilePath.Size = new System.Drawing.Size(424, 31);
+            this.txtYoloFilePath.Size = new System.Drawing.Size(201, 26);
             this.txtYoloFilePath.TabIndex = 3;
             this.txtYoloFilePath.Leave += new System.EventHandler(this.txt_Leave);
             // 
             // btnObjFilePath
             // 
             this.btnObjFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnObjFilePath.Location = new System.Drawing.Point(444, 46);
+            this.btnObjFilePath.Location = new System.Drawing.Point(400, 42);
+            this.btnObjFilePath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnObjFilePath.Name = "btnObjFilePath";
-            this.btnObjFilePath.Size = new System.Drawing.Size(34, 34);
+            this.btnObjFilePath.Size = new System.Drawing.Size(31, 27);
             this.btnObjFilePath.TabIndex = 4;
             this.btnObjFilePath.Text = "..";
             this.btnObjFilePath.UseVisualStyleBackColor = true;
@@ -101,9 +111,10 @@
             // btnYoloFilePath
             // 
             this.btnYoloFilePath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnYoloFilePath.Location = new System.Drawing.Point(444, 88);
+            this.btnYoloFilePath.Location = new System.Drawing.Point(400, 75);
+            this.btnYoloFilePath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnYoloFilePath.Name = "btnYoloFilePath";
-            this.btnYoloFilePath.Size = new System.Drawing.Size(34, 34);
+            this.btnYoloFilePath.Size = new System.Drawing.Size(31, 27);
             this.btnYoloFilePath.TabIndex = 5;
             this.btnYoloFilePath.Text = "..";
             this.btnYoloFilePath.UseVisualStyleBackColor = true;
@@ -112,9 +123,10 @@
             // btnWeigthFolderPath
             // 
             this.btnWeigthFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnWeigthFolderPath.Location = new System.Drawing.Point(444, 128);
+            this.btnWeigthFolderPath.Location = new System.Drawing.Point(400, 109);
+            this.btnWeigthFolderPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnWeigthFolderPath.Name = "btnWeigthFolderPath";
-            this.btnWeigthFolderPath.Size = new System.Drawing.Size(34, 34);
+            this.btnWeigthFolderPath.Size = new System.Drawing.Size(31, 27);
             this.btnWeigthFolderPath.TabIndex = 7;
             this.btnWeigthFolderPath.Text = "..";
             this.btnWeigthFolderPath.UseVisualStyleBackColor = true;
@@ -124,18 +136,20 @@
             // 
             this.txtWeightFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtWeightFolderPath.Location = new System.Drawing.Point(14, 130);
+            this.txtWeightFolderPath.Location = new System.Drawing.Point(194, 111);
+            this.txtWeightFolderPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtWeightFolderPath.Name = "txtWeightFolderPath";
-            this.txtWeightFolderPath.Size = new System.Drawing.Size(424, 31);
+            this.txtWeightFolderPath.Size = new System.Drawing.Size(201, 26);
             this.txtWeightFolderPath.TabIndex = 6;
             this.txtWeightFolderPath.Leave += new System.EventHandler(this.txt_Leave);
             // 
             // btnDataFolderPath
             // 
             this.btnDataFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDataFolderPath.Location = new System.Drawing.Point(444, 168);
+            this.btnDataFolderPath.Location = new System.Drawing.Point(400, 144);
+            this.btnDataFolderPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDataFolderPath.Name = "btnDataFolderPath";
-            this.btnDataFolderPath.Size = new System.Drawing.Size(34, 34);
+            this.btnDataFolderPath.Size = new System.Drawing.Size(31, 27);
             this.btnDataFolderPath.TabIndex = 9;
             this.btnDataFolderPath.Text = "..";
             this.btnDataFolderPath.UseVisualStyleBackColor = true;
@@ -145,18 +159,19 @@
             // 
             this.txtDataFolderPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDataFolderPath.Location = new System.Drawing.Point(14, 170);
+            this.txtDataFolderPath.Location = new System.Drawing.Point(194, 146);
+            this.txtDataFolderPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDataFolderPath.Name = "txtDataFolderPath";
-
-            this.txtDataFolderPath.Size = new System.Drawing.Size(424, 31);
+            this.txtDataFolderPath.Size = new System.Drawing.Size(201, 26);
             this.txtDataFolderPath.TabIndex = 8;
             this.txtDataFolderPath.Leave += new System.EventHandler(this.txt_Leave);
             // 
             // txtTargetXResolution
             // 
-            this.txtTargetXResolution.Location = new System.Drawing.Point(305, 214);
+            this.txtTargetXResolution.Location = new System.Drawing.Point(274, 181);
+            this.txtTargetXResolution.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtTargetXResolution.Name = "txtTargetXResolution";
-            this.txtTargetXResolution.Size = new System.Drawing.Size(173, 31);
+            this.txtTargetXResolution.Size = new System.Drawing.Size(156, 26);
             this.txtTargetXResolution.TabIndex = 10;
             this.txtTargetXResolution.Leave += new System.EventHandler(this.txt_Leave);
             // 
@@ -165,9 +180,10 @@
             this.checkedListBoxCollections.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedListBoxCollections.FormattingEnabled = true;
-            this.checkedListBoxCollections.Location = new System.Drawing.Point(292, 259);
+            this.checkedListBoxCollections.Location = new System.Drawing.Point(262, 242);
+            this.checkedListBoxCollections.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkedListBoxCollections.Name = "checkedListBoxCollections";
-            this.checkedListBoxCollections.Size = new System.Drawing.Size(186, 144);
+            this.checkedListBoxCollections.Size = new System.Drawing.Size(168, 96);
             this.checkedListBoxCollections.TabIndex = 13;
             this.checkedListBoxCollections.Leave += new System.EventHandler(this.txt_Leave);
             this.checkedListBoxCollections.MouseLeave += new System.EventHandler(this.txt_Leave);
@@ -175,37 +191,91 @@
             // btnExport
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.Location = new System.Drawing.Point(366, 409);
+            this.btnExport.Location = new System.Drawing.Point(263, 355);
+            this.btnExport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(112, 34);
+            this.btnExport.Size = new System.Drawing.Size(167, 27);
             this.btnExport.TabIndex = 14;
-            this.btnExport.Text = "Export";
+            this.btnExport.Text = "Export Images";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(14, 217);
+            this.label1.Location = new System.Drawing.Point(13, 184);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(267, 25);
+            this.label1.Size = new System.Drawing.Size(241, 20);
             this.label1.TabIndex = 15;
             this.label1.Text = "Target Resolution (Square) im px";
             // 
-            // button1
+            // button2
             // 
-            this.button1.Location = new System.Drawing.Point(248, 409);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(112, 34);
-            this.button1.TabIndex = 16;
-            this.button1.Text = "Train";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(91, 355);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(167, 27);
+            this.button2.TabIndex = 17;
+            this.button2.Text = "Export Annotations";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 15);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(38, 20);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Title";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 49);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(100, 20);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Obj-File Path";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 83);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(122, 20);
+            this.label4.TabIndex = 20;
+            this.label4.Text = "Config-File Path";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 117);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(145, 20);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "Weights-Foler Path";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(13, 152);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(131, 20);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Data-Folder Path";
             // 
             // NetDetailCell
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnExport);
             this.Controls.Add(this.checkedListBoxCollections);
@@ -220,9 +290,10 @@
             this.Controls.Add(this.txtObjFilePath);
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.txtTitle);
-            this.MinimumSize = new System.Drawing.Size(490, 452);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MinimumSize = new System.Drawing.Size(441, 362);
             this.Name = "NetDetailCell";
-            this.Size = new System.Drawing.Size(490, 452);
+            this.Size = new System.Drawing.Size(441, 390);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -244,6 +315,11 @@
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnObjFilePath;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
