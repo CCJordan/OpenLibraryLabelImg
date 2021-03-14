@@ -51,7 +51,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtTitle.Location = new System.Drawing.Point(14, 11);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.PlaceholderText = "Title";
             this.txtTitle.Size = new System.Drawing.Size(464, 31);
             this.txtTitle.TabIndex = 0;
             this.txtTitle.Leave += new System.EventHandler(this.txt_Leave);
@@ -64,7 +63,6 @@
             this.txtDescription.Location = new System.Drawing.Point(14, 259);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.PlaceholderText = "Description";
             this.txtDescription.Size = new System.Drawing.Size(272, 144);
             this.txtDescription.TabIndex = 1;
             this.txtDescription.Leave += new System.EventHandler(this.txt_Leave);
@@ -75,7 +73,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtObjFilePath.Location = new System.Drawing.Point(14, 48);
             this.txtObjFilePath.Name = "txtObjFilePath";
-            this.txtObjFilePath.PlaceholderText = "obj-File Path";
             this.txtObjFilePath.Size = new System.Drawing.Size(424, 31);
             this.txtObjFilePath.TabIndex = 2;
             this.txtObjFilePath.Leave += new System.EventHandler(this.txt_Leave);
@@ -86,7 +83,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtYoloFilePath.Location = new System.Drawing.Point(14, 90);
             this.txtYoloFilePath.Name = "txtYoloFilePath";
-            this.txtYoloFilePath.PlaceholderText = "yolo-File Path";
             this.txtYoloFilePath.Size = new System.Drawing.Size(424, 31);
             this.txtYoloFilePath.TabIndex = 3;
             this.txtYoloFilePath.Leave += new System.EventHandler(this.txt_Leave);
@@ -130,7 +126,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtWeightFolderPath.Location = new System.Drawing.Point(14, 130);
             this.txtWeightFolderPath.Name = "txtWeightFolderPath";
-            this.txtWeightFolderPath.PlaceholderText = "weight-Folder Path";
             this.txtWeightFolderPath.Size = new System.Drawing.Size(424, 31);
             this.txtWeightFolderPath.TabIndex = 6;
             this.txtWeightFolderPath.Leave += new System.EventHandler(this.txt_Leave);
@@ -152,7 +147,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDataFolderPath.Location = new System.Drawing.Point(14, 170);
             this.txtDataFolderPath.Name = "txtDataFolderPath";
-            this.txtDataFolderPath.PlaceholderText = "data-Folder Path";
+
             this.txtDataFolderPath.Size = new System.Drawing.Size(424, 31);
             this.txtDataFolderPath.TabIndex = 8;
             this.txtDataFolderPath.Leave += new System.EventHandler(this.txt_Leave);
@@ -161,7 +156,6 @@
             // 
             this.txtTargetXResolution.Location = new System.Drawing.Point(305, 214);
             this.txtTargetXResolution.Name = "txtTargetXResolution";
-            this.txtTargetXResolution.PlaceholderText = "Max width or height";
             this.txtTargetXResolution.Size = new System.Drawing.Size(173, 31);
             this.txtTargetXResolution.TabIndex = 10;
             this.txtTargetXResolution.Leave += new System.EventHandler(this.txt_Leave);

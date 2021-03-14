@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
 using OpenLibraryLabelImg.Data;
 using OpenLibraryLabelImg.Forms;
 using OpenLibraryLabelImg.Model;
@@ -40,7 +40,7 @@ namespace OpenLibraryLabelImg.UserControls
             RefreshCollections();
         }
 
-        private async void txt_Leave(object sender, EventArgs e)
+        private void txt_Leave(object sender, EventArgs e)
         {
             Net.Title = txtTitle.Text;
             Net.Description = txtDescription.Text;
@@ -50,11 +50,11 @@ namespace OpenLibraryLabelImg.UserControls
             Net.DataFolderPath = txtDataFolderPath.Text;
             Net.TargetResolution = int.Parse(txtTargetXResolution.Text);
 
-            if (!Net.DataFolderPath.EndsWith(Path.DirectorySeparatorChar))
+            if (!Net.DataFolderPath.EndsWith("" + Path.DirectorySeparatorChar))
             {
                 Net.DataFolderPath += Path.DirectorySeparatorChar;
             }
-            if (!Net.WeightFolderPath.EndsWith(Path.DirectorySeparatorChar))
+            if (!Net.WeightFolderPath.EndsWith("" + Path.DirectorySeparatorChar))
             {
                 Net.WeightFolderPath += Path.DirectorySeparatorChar;
             }
@@ -74,7 +74,7 @@ namespace OpenLibraryLabelImg.UserControls
             var toDelete = Net.Collections.Where(c => !foundIDs.Contains(c.Id)).ToList();
             toDelete.ForEach( i => Net.Collections.Remove(i) );
 
-            await context.SaveChangesAsync();
+            context.SaveChanges();
         }
 
         internal void RefreshCollections()
@@ -95,11 +95,10 @@ namespace OpenLibraryLabelImg.UserControls
         private void btnExport_Click(object sender, EventArgs e)
         {
             var collections = context.Nets
-            .Include(n => n.Collections)
-            .ThenInclude(c => c.Images)
-            .ThenInclude(i => i.Boxes)
-            .Include(n => n.Collections)
-            .ThenInclude(c => c.Classes)
+            .Include("Collections")
+            .Include("Collections.Images")
+            .Include("Collections.Images.Boxes")
+            .Include("Collections.Classes")
             .First(n => n.Id == Net.Id)
             .Collections
             .ToList();

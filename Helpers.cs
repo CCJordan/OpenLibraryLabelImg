@@ -21,7 +21,7 @@ namespace OpenLibraryLabelImg
         public static void ImportFolder(string folder, AnnotationCollection collection, bool skipExsisting)
         {
             
-            if (!folder.EndsWith(Path.DirectorySeparatorChar))
+            if (!folder.EndsWith("" + Path.DirectorySeparatorChar))
             {
                 folder += Path.DirectorySeparatorChar;
             }
@@ -39,7 +39,7 @@ namespace OpenLibraryLabelImg
             for (int i = 0; i < files.Length; i++)
             {
                 string filePath = files[i];
-                if (filePath[filePath.LastIndexOf('.')..] == ".txt")
+                if (filePath.Substring(filePath.LastIndexOf('.')) == ".txt")
                 {
                     needsMapping = true;
                     idsFromFiles.AddRange(importBoxes(filePath).Select(b => b.ClassId).Distinct().Where(cid => !idsFromFiles.Contains(cid)));
@@ -68,11 +68,11 @@ namespace OpenLibraryLabelImg
                 string filePath = files[i];
                 window.UpdateProgressbar(i, files.Length);
                 // Check file extension
-                if (!SupportedFileTypes.Contains(filePath[filePath.LastIndexOf('.')..])) {
+                if (!SupportedFileTypes.Contains(filePath.Substring(filePath.LastIndexOf('.')))) {
                     continue;
                 }
 
-                var fileName = filePath[folder.Length..];
+                var fileName = filePath.Substring(folder.Length);
                 var targetFile = collection.BasePath + fileName;
                 if (folder != collection.BasePath)
                 {

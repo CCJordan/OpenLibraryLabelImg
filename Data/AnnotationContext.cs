@@ -1,43 +1,52 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OpenLibraryLabelImg.Model;
+﻿using OpenLibraryLabelImg.Model;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Data.SQLite;
+using System.Data.SQLite.EF6.Migrations;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace OpenLibraryLabelImg.Data
 {
     public class AnnotationContext : DbContext
     {
-        public AnnotationContext() {
-        }
+        
 
-        public AnnotationContext(DbContextOptions<AnnotationContext> options)
-               : base(options)
-        {
-        }
+        public AnnotationContext():base(new SQLiteConnection() { ConnectionString = "Data Source=.\\OpenLibraryLabelImg.db" }, true) {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AnnotationContext, ContextMigrationConfiguration>(true));
 
-        public virtual DbSet<AnnotationImage> Images { get; set; }
-        public virtual DbSet<AnnotationCollection> Collections { get; set; }
-        public virtual DbSet<AnnotationClass> Classes { get; set; }
-        public virtual DbSet<YoloNet> Nets { get; set; }
+            Database.Connection.Open();
+            this.Database.CreateIfNotExists();
+            this.Database.Initialize(true);
+            this.SaveChanges();
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured) {
-                optionsBuilder.UseSqlite("Filename=OpenLibraryLabelImg.db", options =>
-                {
-                    options.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName);
-                });
-                
+            if (!this.Database.CompatibleWithModel(false)) {
+                MessageBox.Show("DB Model Error.");
             }
-
-            base.OnConfiguring(optionsBuilder);
+            
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public DbSet<AnnotationImage> Images { get; set; }
+        public DbSet<AnnotationCollection> Collections { get; set; }
+        public DbSet<AnnotationClass> Classes { get; set; }
+        public DbSet<YoloNet> Nets { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AnnotationClass>()
                 .HasIndex(c => c.Title).IsUnique();
 
             modelBuilder.Entity<ClassMap>().HasKey(cm => new { cm.AnnotationClassId, cm.MappedId });
+        }
+    }
+
+    internal sealed class ContextMigrationConfiguration : DbMigrationsConfiguration<AnnotationContext>
+    {
+        public ContextMigrationConfiguration()
+        {
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
+            SetSqlGenerator("System.Data.SQLite", new SQLiteMigrationSqlGenerator());
         }
     }
 }

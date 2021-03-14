@@ -4,9 +4,9 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore;
 using OpenLibraryLabelImg.UserControls;
 using System.Reflection;
+using System.Data.Entity;
 
 namespace OpenLibraryLabelImg.Forms
 {
@@ -32,15 +32,11 @@ namespace OpenLibraryLabelImg.Forms
             Helpers.window = this;
         }
 
-        private async void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             Logger.Info($"{Assembly.GetExecutingAssembly().GetName()} starting up.");
 
-            Logger.Info($"Database Version {context.Database.GetAppliedMigrations().LastOrDefault()}, {context.Database.GetPendingMigrations().Count()} Migrations pending.");
-            context.Database.Migrate();
-            Logger.Info($"Migration complete, Current Version {context.Database.GetAppliedMigrations().Last()}");
-
-            var collections = await context.Collections.Include(c => c.Images).Include(c => c.Classes).ToListAsync();
+            var collections = context.Collections.Include(c => c.Classes).Include(c => c.Images).ToList();
             Logger.Debug($"Loaded {collections.Count} collections");
             foreach (var collection in collections)
             {
@@ -52,7 +48,7 @@ namespace OpenLibraryLabelImg.Forms
                 details.Width = pnlCollectionDetails.Width - scrollBarWidth;
             }
 
-            var classes = await context.Classes.ToListAsync();
+            var classes = context.Classes.ToList();
             Logger.Debug($"Loaded {classes.Count} classes");
             foreach (var cls in classes)
             {
@@ -63,7 +59,7 @@ namespace OpenLibraryLabelImg.Forms
                 details.Width = pnlClasses.Width - scrollBarWidth;
             }
 
-            var nets = await context.Nets.Include(n => n.Collections).Include(n => n.ClassMapping).ToListAsync();
+            var nets = context.Nets.Include(n => n.Collections).Include(n => n.ClassMapping).ToList();
             Logger.Debug($"Loaded {nets.Count} nets");
             foreach (var net in nets)
             {

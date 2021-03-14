@@ -38,6 +38,7 @@ namespace OpenLibraryLabelImg.UserControls
             this.txtPath = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.btnImportPictures = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // checkedListBoxClasses
@@ -59,7 +60,6 @@ namespace OpenLibraryLabelImg.UserControls
             this.txtDescription.Location = new System.Drawing.Point(6, 160);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.PlaceholderText = "Description";
             this.txtDescription.Size = new System.Drawing.Size(452, 114);
             this.txtDescription.TabIndex = 14;
             this.txtDescription.Leave += new System.EventHandler(this.txtDescription_Leave);
@@ -103,7 +103,6 @@ namespace OpenLibraryLabelImg.UserControls
             // 
             this.txtPath.Location = new System.Drawing.Point(6, 62);
             this.txtPath.Name = "txtPath";
-            this.txtPath.PlaceholderText = "Path";
             this.txtPath.Size = new System.Drawing.Size(192, 31);
             this.txtPath.TabIndex = 9;
             this.txtPath.Leave += new System.EventHandler(this.txtPath_Leave);
@@ -112,7 +111,6 @@ namespace OpenLibraryLabelImg.UserControls
             // 
             this.txtName.Location = new System.Drawing.Point(6, 25);
             this.txtName.Name = "txtName";
-            this.txtName.PlaceholderText = "Collectionname";
             this.txtName.Size = new System.Drawing.Size(242, 31);
             this.txtName.TabIndex = 8;
             this.txtName.Leave += new System.EventHandler(this.txtName_Leave);
@@ -127,10 +125,20 @@ namespace OpenLibraryLabelImg.UserControls
             this.btnImportPictures.UseVisualStyleBackColor = true;
             this.btnImportPictures.Click += new System.EventHandler(this.btnImportPictures_Click);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(185, 109);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(173, 34);
+            this.button2.TabIndex = 17;
+            this.button2.Text = "Import Pictures";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
             // CollectionDetailCell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.btnImportPictures);
             this.Controls.Add(this.checkedListBoxClasses);
             this.Controls.Add(this.txtDescription);
@@ -159,5 +167,6 @@ namespace OpenLibraryLabelImg.UserControls
         private System.Windows.Forms.TextBox txtPath;
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Button btnImportPictures;
+        private System.Windows.Forms.Button button2;
     }
 }

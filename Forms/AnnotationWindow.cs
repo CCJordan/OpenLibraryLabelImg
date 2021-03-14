@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OpenLibraryLabelImg.Data;
+﻿using OpenLibraryLabelImg.Data;
 using OpenLibraryLabelImg.Model;
 using OpenLibraryLabelImg.UserControls;
 using System;
@@ -66,9 +65,9 @@ namespace OpenLibraryLabelImg.Forms
             AllowTransparency = true;
             DoubleBuffered = false;
             Collection = context.Collections
-                                    .Include(c => c.Classes)
-                                    .Include(c => c.Images)
-                                        .ThenInclude(i => i.Boxes)
+                                        .Include("Classes")
+                                        .Include("Images")
+                                        .Include("Images.Boxes")
                                     .Where(c => c.Id == collection.Id)
                                     .FirstOrDefault();
             if (Collection == null)

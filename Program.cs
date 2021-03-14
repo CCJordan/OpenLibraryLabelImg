@@ -29,14 +29,15 @@ namespace OpenLibraryLabelImg
             //Culture for UI in any thread
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
 
             try
             {
-                Application.Run(new MainWindow());
+                MainWindow mainForm = new MainWindow();
+                Application.Run(mainForm);
+                mainForm.Show();
             }
             catch (Exception e)
             {

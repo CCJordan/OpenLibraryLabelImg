@@ -1,6 +1,5 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using Microsoft.EntityFrameworkCore;
 using OpenLibraryLabelImg.Data;
 using OpenLibraryLabelImg.Model;
 using System;
@@ -25,8 +24,8 @@ namespace OpenLibraryLabelImg.UserControls
             context.Collections.Add(collection);
             context.SaveChanges();
             Collection = context.Collections
-                .Include(c => c.Classes)
-                .Include(c => c.Images)
+                .Include("Classes")
+                .Include("Images")
                 .FirstOrDefault(c => c.Id == collection.Id);
             updateNOfMLabel();
 
@@ -37,8 +36,8 @@ namespace OpenLibraryLabelImg.UserControls
         {
             InitializeComponent();
             Collection = context.Collections
-                    .Include(c => c.Classes)
-                    .Include(c => c.Images)
+                    .Include("Classes")
+                    .Include("Images")
                     .FirstOrDefault(c => c.Id == collection.Id);
 
             txtName.Text = Collection.Title;
@@ -61,7 +60,8 @@ namespace OpenLibraryLabelImg.UserControls
         public void RefreshClasses()
         {
             // Refresh data
-            var col = context.Collections.Include(c => c.Classes).Include(c => c.Images).FirstOrDefault(c => c.Id == Collection.Id);
+            var col = context.Collections.Include("Classes")
+                                        .Include("Images").FirstOrDefault(c => c.Id == Collection.Id);
             lblClasses.Text = Collection.Classes?.Count + " classes";
 
             checkedListBoxClasses.Items.Clear();
@@ -85,7 +85,7 @@ namespace OpenLibraryLabelImg.UserControls
 
         private void txtPath_Leave(object sender, EventArgs e)
         {
-            if (!txtPath.Text.EndsWith(Path.DirectorySeparatorChar)) {
+            if (!txtPath.Text.EndsWith("" + Path.DirectorySeparatorChar)) {
                 txtPath.Text += Path.DirectorySeparatorChar;
             }
             Collection.BasePath = txtPath.Text;
