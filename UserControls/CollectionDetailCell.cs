@@ -66,7 +66,7 @@ namespace OpenLibraryLabelImg.UserControls
 
             checkedListBoxClasses.Items.Clear();
 
-            checkedListBoxClasses.Items.AddRange(context.Classes.AsNoTracking().Select(c => c.Title).ToArray());
+            checkedListBoxClasses.Items.AddRange(context.Classes.AsNoTracking().Select(c => c.Title + "").ToArray());
             if (col == null) {
                 return;
             }

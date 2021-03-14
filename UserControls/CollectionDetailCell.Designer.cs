@@ -128,7 +128,7 @@ namespace OpenLibraryLabelImg.UserControls
             this.btnImportPictures.Location = new System.Drawing.Point(5, 87);
             this.btnImportPictures.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnImportPictures.Name = "btnImportPictures";
-            this.btnImportPictures.Size = new System.Drawing.Size(156, 27);
+            this.btnImportPictures.Size = new System.Drawing.Size(156, 34);
             this.btnImportPictures.TabIndex = 16;
             this.btnImportPictures.Text = "Import Pictures";
             this.btnImportPictures.UseVisualStyleBackColor = true;
@@ -139,7 +139,7 @@ namespace OpenLibraryLabelImg.UserControls
             this.btnImportAnnotations.Location = new System.Drawing.Point(166, 87);
             this.btnImportAnnotations.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnImportAnnotations.Name = "btnImportAnnotations";
-            this.btnImportAnnotations.Size = new System.Drawing.Size(156, 27);
+            this.btnImportAnnotations.Size = new System.Drawing.Size(156, 34);
             this.btnImportAnnotations.TabIndex = 17;
             this.btnImportAnnotations.Text = "Import Annotations";
             this.btnImportAnnotations.UseVisualStyleBackColor = true;

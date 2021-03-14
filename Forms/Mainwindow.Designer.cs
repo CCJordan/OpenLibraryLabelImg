@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btnAddCollection = new System.Windows.Forms.Button();
             this.btnRemoveCollection = new System.Windows.Forms.Button();
             this.pnlCollectionDetails = new System.Windows.Forms.FlowLayoutPanel();
@@ -49,23 +49,28 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.classDistributionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.chartAnnotationState = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.classDistributionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.classDistributionChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartAnnotationState)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.classDistributionChart)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAddCollection
             // 
             this.btnAddCollection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddCollection.Location = new System.Drawing.Point(599, 761);
+            this.btnAddCollection.Location = new System.Drawing.Point(599, 740);
             this.btnAddCollection.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddCollection.Name = "btnAddCollection";
-            this.btnAddCollection.Size = new System.Drawing.Size(31, 27);
+            this.btnAddCollection.Size = new System.Drawing.Size(31, 39);
             this.btnAddCollection.TabIndex = 1;
             this.btnAddCollection.Text = "+";
             this.btnAddCollection.UseVisualStyleBackColor = true;
@@ -74,10 +79,10 @@
             // btnRemoveCollection
             // 
             this.btnRemoveCollection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemoveCollection.Location = new System.Drawing.Point(563, 761);
+            this.btnRemoveCollection.Location = new System.Drawing.Point(563, 740);
             this.btnRemoveCollection.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRemoveCollection.Name = "btnRemoveCollection";
-            this.btnRemoveCollection.Size = new System.Drawing.Size(31, 27);
+            this.btnRemoveCollection.Size = new System.Drawing.Size(31, 39);
             this.btnRemoveCollection.TabIndex = 2;
             this.btnRemoveCollection.Text = "-";
             this.btnRemoveCollection.UseVisualStyleBackColor = true;
@@ -91,16 +96,16 @@
             this.pnlCollectionDetails.Location = new System.Drawing.Point(11, 24);
             this.pnlCollectionDetails.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlCollectionDetails.Name = "pnlCollectionDetails";
-            this.pnlCollectionDetails.Size = new System.Drawing.Size(619, 732);
+            this.pnlCollectionDetails.Size = new System.Drawing.Size(619, 712);
             this.pnlCollectionDetails.TabIndex = 3;
             // 
             // btnAddClass
             // 
             this.btnAddClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddClass.Location = new System.Drawing.Point(458, 731);
+            this.btnAddClass.Location = new System.Drawing.Point(458, 701);
             this.btnAddClass.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddClass.Name = "btnAddClass";
-            this.btnAddClass.Size = new System.Drawing.Size(31, 27);
+            this.btnAddClass.Size = new System.Drawing.Size(31, 39);
             this.btnAddClass.TabIndex = 5;
             this.btnAddClass.Text = "+";
             this.btnAddClass.UseVisualStyleBackColor = true;
@@ -109,10 +114,10 @@
             // btnRemoveClass
             // 
             this.btnRemoveClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemoveClass.Location = new System.Drawing.Point(422, 731);
+            this.btnRemoveClass.Location = new System.Drawing.Point(422, 701);
             this.btnRemoveClass.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRemoveClass.Name = "btnRemoveClass";
-            this.btnRemoveClass.Size = new System.Drawing.Size(31, 27);
+            this.btnRemoveClass.Size = new System.Drawing.Size(31, 39);
             this.btnRemoveClass.TabIndex = 6;
             this.btnRemoveClass.Text = "-";
             this.btnRemoveClass.UseVisualStyleBackColor = true;
@@ -127,7 +132,7 @@
             this.pnlClasses.Location = new System.Drawing.Point(-4, 0);
             this.pnlClasses.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlClasses.Name = "pnlClasses";
-            this.pnlClasses.Size = new System.Drawing.Size(495, 726);
+            this.pnlClasses.Size = new System.Drawing.Size(495, 697);
             this.pnlClasses.TabIndex = 7;
             // 
             // tabControl1
@@ -140,7 +145,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(499, 799);
+            this.tabControl1.Size = new System.Drawing.Size(499, 784);
             this.tabControl1.TabIndex = 8;
             // 
             // tabPage1
@@ -152,7 +157,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(491, 766);
+            this.tabPage1.Size = new System.Drawing.Size(491, 751);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Classes";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -166,7 +171,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(491, 766);
+            this.tabPage2.Size = new System.Drawing.Size(491, 751);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Yolo Nets";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -174,10 +179,10 @@
             // btnRemoveNetwork
             // 
             this.btnRemoveNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemoveNetwork.Location = new System.Drawing.Point(424, 736);
+            this.btnRemoveNetwork.Location = new System.Drawing.Point(418, 701);
             this.btnRemoveNetwork.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRemoveNetwork.Name = "btnRemoveNetwork";
-            this.btnRemoveNetwork.Size = new System.Drawing.Size(31, 27);
+            this.btnRemoveNetwork.Size = new System.Drawing.Size(31, 39);
             this.btnRemoveNetwork.TabIndex = 9;
             this.btnRemoveNetwork.Text = "-";
             this.btnRemoveNetwork.UseVisualStyleBackColor = true;
@@ -193,17 +198,17 @@
             this.pnlNetworks.Location = new System.Drawing.Point(5, 5);
             this.pnlNetworks.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlNetworks.Name = "pnlNetworks";
-            this.pnlNetworks.Size = new System.Drawing.Size(474, 726);
+            this.pnlNetworks.Size = new System.Drawing.Size(480, 692);
             this.pnlNetworks.TabIndex = 10;
             this.pnlNetworks.WrapContents = false;
             // 
             // btnAddNetwork
             // 
             this.btnAddNetwork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddNetwork.Location = new System.Drawing.Point(460, 736);
+            this.btnAddNetwork.Location = new System.Drawing.Point(454, 701);
             this.btnAddNetwork.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddNetwork.Name = "btnAddNetwork";
-            this.btnAddNetwork.Size = new System.Drawing.Size(31, 27);
+            this.btnAddNetwork.Size = new System.Drawing.Size(31, 39);
             this.btnAddNetwork.TabIndex = 8;
             this.btnAddNetwork.Text = "+";
             this.btnAddNetwork.UseVisualStyleBackColor = true;
@@ -215,10 +220,10 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar,
             this.toolStripStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 796);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 786);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1957, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1957, 32);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -235,49 +240,66 @@
             this.toolStripStatusLabel.Text = "toolStripStatusLabel1";
             this.toolStripStatusLabel.Visible = false;
             // 
-            // classDistributionChart
+            // splitContainer1
             // 
-            this.classDistributionChart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.Name = "ChartArea1";
-            this.classDistributionChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.classDistributionChart.Legends.Add(legend1);
-            this.classDistributionChart.Location = new System.Drawing.Point(650, 24);
-            this.classDistributionChart.Name = "classDistributionChart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.classDistributionChart.Series.Add(series1);
-            this.classDistributionChart.Size = new System.Drawing.Size(792, 391);
-            this.classDistributionChart.TabIndex = 11;
-            this.classDistributionChart.Text = "chart1";
+            this.splitContainer1.Location = new System.Drawing.Point(636, 24);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.classDistributionChart);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.chartAnnotationState);
+            this.splitContainer1.Size = new System.Drawing.Size(810, 769);
+            this.splitContainer1.SplitterDistance = 397;
+            this.splitContainer1.TabIndex = 10;
             // 
             // chartAnnotationState
             // 
-            this.chartAnnotationState.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             chartArea2.Name = "ChartArea1";
             this.chartAnnotationState.ChartAreas.Add(chartArea2);
+            this.chartAnnotationState.Dock = System.Windows.Forms.DockStyle.Fill;
             legend2.Name = "Legend1";
             this.chartAnnotationState.Legends.Add(legend2);
-            this.chartAnnotationState.Location = new System.Drawing.Point(650, 421);
+            this.chartAnnotationState.Location = new System.Drawing.Point(0, 0);
             this.chartAnnotationState.Name = "chartAnnotationState";
             series2.ChartArea = "ChartArea1";
             series2.Legend = "Legend1";
             series2.Name = "Series1";
             this.chartAnnotationState.Series.Add(series2);
-            this.chartAnnotationState.Size = new System.Drawing.Size(792, 373);
-            this.chartAnnotationState.TabIndex = 12;
+            this.chartAnnotationState.Size = new System.Drawing.Size(810, 368);
+            this.chartAnnotationState.TabIndex = 14;
             this.chartAnnotationState.Text = "chart1";
+            // 
+            // classDistributionChart
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.classDistributionChart.ChartAreas.Add(chartArea1);
+            this.classDistributionChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.classDistributionChart.Legends.Add(legend1);
+            this.classDistributionChart.Location = new System.Drawing.Point(0, 0);
+            this.classDistributionChart.Name = "classDistributionChart";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.classDistributionChart.Series.Add(series1);
+            this.classDistributionChart.Size = new System.Drawing.Size(810, 397);
+            this.classDistributionChart.TabIndex = 13;
+            this.classDistributionChart.Text = "chart1";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1957, 818);
-            this.Controls.Add(this.chartAnnotationState);
-            this.Controls.Add(this.classDistributionChart);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pnlCollectionDetails);
@@ -292,8 +314,12 @@
             this.tabPage2.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.classDistributionChart)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartAnnotationState)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.classDistributionChart)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -315,6 +341,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.DataVisualization.Charting.Chart classDistributionChart;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartAnnotationState;
     }
