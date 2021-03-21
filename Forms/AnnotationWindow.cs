@@ -258,14 +258,13 @@ namespace OpenLibraryLabelImg.Forms
 
             if (e.ClickedItem.Text == "Delete")
             {
-                Logger.Debug($"Deleting Annotation {parent.AnnotationBox.Id} with class id {parent.AnnotationBox.Class.Id}");
+                AnnotationBox annotationBox = parent.AnnotationBox;
+                Logger.Debug($"Deleting Annotation {annotationBox.Id} with class id {annotationBox.Class.Id}");
                 pictureBox.Controls.Remove(p.SourceControl);
                 
-                var img = parent.AnnotationBox.AnnotaionImage;
-                parent.AnnotationBox.AnnotaionImage = null;
-                parent.AnnotationBox.AnnotaionImageId = 0;
-                img.Boxes.Remove(parent.AnnotationBox);
-
+                var img = annotationBox.AnnotaionImage;
+                img.Boxes.Remove(annotationBox);
+                context.Boxes.Remove(annotationBox);
                 p.SourceControl.Dispose();
             }
             else

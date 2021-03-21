@@ -70,7 +70,7 @@
             this.txtDescription.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(245, 109);
+            this.txtDescription.Size = new System.Drawing.Size(245, 119);
             this.txtDescription.TabIndex = 1;
             this.txtDescription.Leave += new System.EventHandler(this.txt_Leave);
             // 
@@ -102,7 +102,7 @@
             this.btnObjFilePath.Location = new System.Drawing.Point(400, 42);
             this.btnObjFilePath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnObjFilePath.Name = "btnObjFilePath";
-            this.btnObjFilePath.Size = new System.Drawing.Size(31, 27);
+            this.btnObjFilePath.Size = new System.Drawing.Size(31, 30);
             this.btnObjFilePath.TabIndex = 4;
             this.btnObjFilePath.Text = "..";
             this.btnObjFilePath.UseVisualStyleBackColor = true;
@@ -114,7 +114,7 @@
             this.btnYoloFilePath.Location = new System.Drawing.Point(400, 75);
             this.btnYoloFilePath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnYoloFilePath.Name = "btnYoloFilePath";
-            this.btnYoloFilePath.Size = new System.Drawing.Size(31, 27);
+            this.btnYoloFilePath.Size = new System.Drawing.Size(31, 30);
             this.btnYoloFilePath.TabIndex = 5;
             this.btnYoloFilePath.Text = "..";
             this.btnYoloFilePath.UseVisualStyleBackColor = true;
@@ -126,7 +126,7 @@
             this.btnWeigthFolderPath.Location = new System.Drawing.Point(400, 109);
             this.btnWeigthFolderPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnWeigthFolderPath.Name = "btnWeigthFolderPath";
-            this.btnWeigthFolderPath.Size = new System.Drawing.Size(31, 27);
+            this.btnWeigthFolderPath.Size = new System.Drawing.Size(31, 30);
             this.btnWeigthFolderPath.TabIndex = 7;
             this.btnWeigthFolderPath.Text = "..";
             this.btnWeigthFolderPath.UseVisualStyleBackColor = true;
@@ -149,7 +149,7 @@
             this.btnDataFolderPath.Location = new System.Drawing.Point(400, 144);
             this.btnDataFolderPath.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDataFolderPath.Name = "btnDataFolderPath";
-            this.btnDataFolderPath.Size = new System.Drawing.Size(31, 27);
+            this.btnDataFolderPath.Size = new System.Drawing.Size(31, 30);
             this.btnDataFolderPath.TabIndex = 9;
             this.btnDataFolderPath.Text = "..";
             this.btnDataFolderPath.UseVisualStyleBackColor = true;
@@ -183,7 +183,7 @@
             this.checkedListBoxCollections.Location = new System.Drawing.Point(262, 242);
             this.checkedListBoxCollections.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkedListBoxCollections.Name = "checkedListBoxCollections";
-            this.checkedListBoxCollections.Size = new System.Drawing.Size(168, 96);
+            this.checkedListBoxCollections.Size = new System.Drawing.Size(168, 119);
             this.checkedListBoxCollections.TabIndex = 13;
             this.checkedListBoxCollections.Leave += new System.EventHandler(this.txt_Leave);
             this.checkedListBoxCollections.MouseLeave += new System.EventHandler(this.txt_Leave);
@@ -191,10 +191,10 @@
             // btnExport
             // 
             this.btnExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExport.Location = new System.Drawing.Point(263, 355);
+            this.btnExport.Location = new System.Drawing.Point(264, 371);
             this.btnExport.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(167, 27);
+            this.btnExport.Size = new System.Drawing.Size(167, 34);
             this.btnExport.TabIndex = 14;
             this.btnExport.Text = "Export Images";
             this.btnExport.UseVisualStyleBackColor = true;
@@ -212,10 +212,10 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(91, 355);
+            this.button2.Location = new System.Drawing.Point(92, 371);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(167, 27);
+            this.button2.Size = new System.Drawing.Size(167, 34);
             this.button2.TabIndex = 17;
             this.button2.Text = "Export Annotations";
             this.button2.UseVisualStyleBackColor = true;
@@ -293,7 +293,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MinimumSize = new System.Drawing.Size(441, 362);
             this.Name = "NetDetailCell";
-            this.Size = new System.Drawing.Size(441, 390);
+            this.Size = new System.Drawing.Size(441, 416);
             this.ResumeLayout(false);
             this.PerformLayout();
 

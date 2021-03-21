@@ -1,20 +1,19 @@
 ﻿using OpenLibraryLabelImg.Model;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Data.SQLite;
-using System.Data.SQLite.EF6.Migrations;
+using MySql.Data.MySqlClient;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Configuration;
+using MySql.Data.EntityFramework;
 
 namespace OpenLibraryLabelImg.Data
 {
+    [DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class AnnotationContext : DbContext
     {
-        
-
-        public AnnotationContext():base(new SQLiteConnection() { ConnectionString = "Data Source=.\\OpenLibraryLabelImg.db" }, true) {
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<AnnotationContext, ContextMigrationConfiguration>(true));
-
+        public AnnotationContext():base(new MySqlConnection(ConfigurationManager.ConnectionStrings["AnnotationContext"].ConnectionString), true)
+        {
             Database.Connection.Open();
             this.Database.CreateIfNotExists();
             this.Database.Initialize(true);
@@ -30,6 +29,7 @@ namespace OpenLibraryLabelImg.Data
         public DbSet<AnnotationCollection> Collections { get; set; }
         public DbSet<AnnotationClass> Classes { get; set; }
         public DbSet<YoloNet> Nets { get; set; }
+        public DbSet<AnnotationBox> Boxes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -37,16 +37,6 @@ namespace OpenLibraryLabelImg.Data
                 .HasIndex(c => c.Title).IsUnique();
 
             modelBuilder.Entity<ClassMap>().HasKey(cm => new { cm.AnnotationClassId, cm.MappedId });
-        }
-    }
-
-    internal sealed class ContextMigrationConfiguration : DbMigrationsConfiguration<AnnotationContext>
-    {
-        public ContextMigrationConfiguration()
-        {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
-            SetSqlGenerator("System.Data.SQLite", new SQLiteMigrationSqlGenerator());
         }
     }
 }

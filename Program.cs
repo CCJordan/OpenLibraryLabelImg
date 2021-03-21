@@ -28,17 +28,19 @@ namespace OpenLibraryLabelImg
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
+#if !DEBUG
             try
             {
-                MainWindow mainForm = new MainWindow();
-                Application.Run(mainForm);
+#endif
+            MainWindow mainForm = new MainWindow();
+            Application.Run(mainForm);
+#if !DEBUG
             }
             catch (Exception e)
             {
                 Logger.Error(e);
             }
-            
+#endif
         }
     }
 }

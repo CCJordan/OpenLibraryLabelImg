@@ -9,16 +9,21 @@
     <Company />
     <StartupObject></StartupObject>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <EmbedManifest>true</EmbedManifest>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\Christopher\.nuget\packages\mysql.data.entityframework\8.0.23\contentFiles\any\net452\app.config.transform" />
+    <Content Remove="C:\Users\Christopher\.nuget\packages\mysql.data.entityframework\8.0.23\contentFiles\any\net452\web.config.transform" />
+    <Content Remove="C:\Users\Christopher\.nuget\packages\mysql.data.entity\6.10.9\contentFiles\any\net452\app.config.transform" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="26.0.1" />
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="MySql.Data" Version="8.0.23" />
+    <PackageReference Include="MySql.Data.EntityFramework" Version="8.0.23" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.1" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.113.7" />
-    <PackageReference Include="System.Data.SQLite.EF6" Version="1.0.113" />
-    <PackageReference Include="System.Data.SQLite.EF6.Migrations" Version="1.0.112" />
-    <PackageReference Include="System.Data.SQLite.Linq" Version="1.0.113" />
   </ItemGroup>
 
   <ItemGroup>
