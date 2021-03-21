@@ -81,6 +81,7 @@ namespace OpenLibraryLabelImg.UserControls
         {
             checkedListBoxCollections.Items.Clear();
             checkedListBoxCollections.Items.AddRange(context.Collections.AsNoTracking()
+                                                                .ToArray()
                                                                 .Select(c => $"{c.Id}, {c.Title}")
                                                                 .ToArray());
 
@@ -95,10 +96,6 @@ namespace OpenLibraryLabelImg.UserControls
         private void btnExport_Click(object sender, EventArgs e)
         {
             var collections = context.Nets
-            .Include("Collections")
-            .Include("Collections.Images")
-            .Include("Collections.Images.Boxes")
-            .Include("Collections.Classes")
             .First(n => n.Id == Net.Id)
             .Collections
             .ToList();
@@ -142,12 +139,15 @@ namespace OpenLibraryLabelImg.UserControls
 
             Logger.Debug($"Exporting: {collections.Count} collection with {collections.SelectMany(c => c.Images).Count()} images and {collections.SelectMany(c => c.Images).SelectMany(i => i.Boxes).Count()} annotations");
 
+            var exportedImages = new List<string>();
+
             collections
             .AsParallel()
             .ForAll(c =>
             {
+                Application.DoEvents();
                 c.Images
-                .Where(i => i.State == AnnotationState.Annotated)
+                .Where(i => i.State == AnnotationState.Annotated && i.Boxes.Count > 0)
                 .ToList()
                 .AsParallel()
                 .ForAll(i => {
@@ -160,6 +160,7 @@ namespace OpenLibraryLabelImg.UserControls
                             )
                         );
                         Helpers.resize(img, Net.DataFolderPath + i.FileName, Net.TargetResolution);
+                        exportedImages.Add(i.FileName);
                     }
                 });
             });

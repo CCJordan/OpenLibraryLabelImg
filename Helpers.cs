@@ -39,6 +39,8 @@ namespace OpenLibraryLabelImg
             for (int i = 0; i < files.Length; i++)
             {
                 string filePath = files[i];
+                Application.DoEvents();
+                window.UpdateProgressbar(i, files.Length);
                 if (filePath.Substring(filePath.LastIndexOf('.')) == ".txt")
                 {
                     needsMapping = true;
@@ -65,6 +67,7 @@ namespace OpenLibraryLabelImg
             // Import
             for (int i = 0; i < files.Length; i++)
             {
+                Application.DoEvents();
                 string filePath = files[i];
                 window.UpdateProgressbar(i, files.Length);
                 // Check file extension
@@ -118,7 +121,7 @@ namespace OpenLibraryLabelImg
                         collection.Images.Add(aImg);
                     }
 
-                    var classFileName = filePath.Remove(filePath.LastIndexOf('.')) + ".txt";
+                    var classFileName = folder + filePath.Remove(filePath.LastIndexOf('.')) + ".txt";
                     if (File.Exists(classFileName))
                     {
                         importBoxes(classFileName).ForEach(b => {
@@ -179,6 +182,8 @@ namespace OpenLibraryLabelImg
             for (int i = 0; i < files.Length; i++)
             {
                 string filePath = files[i];
+                window.UpdateProgressbar(i, files.Length);
+                Application.DoEvents();
                 if (filePath.Substring(filePath.LastIndexOf('.')) == ".txt")
                 {
                     needsMapping = true;
@@ -206,14 +211,15 @@ namespace OpenLibraryLabelImg
 
             for (int i = 0; i < files.Length; i++)
             {
+                Application.DoEvents();
                 string filePath = files[i];
-                var fileName = filePath.Substring(folder.Length, folder.LastIndexOf("."));
+                var fileName = filePath.Substring(folder.Length, filePath.LastIndexOf(".") - folder.Length);
 
                 if (filePath.Substring(filePath.LastIndexOf('.')) == ".txt")
                 {
                     var aImg = collection.Images.FirstOrDefault(img => img.FileName.StartsWith(fileName));
                     if (aImg != null) {
-                        importBoxes(fileName + ".txt").ForEach(b => {
+                        importBoxes(folder + fileName + ".txt").ForEach(b => {
                             b.Class = collection.Classes.First(c => c.Id == idMapper[b.ClassId]);
                             aImg.Boxes.Add(b);
                         });

@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btnAddCollection = new System.Windows.Forms.Button();
             this.btnRemoveCollection = new System.Windows.Forms.Button();
             this.pnlCollectionDetails = new System.Windows.Forms.FlowLayoutPanel();
@@ -50,8 +50,8 @@
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.chartAnnotationState = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.classDistributionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartAnnotationState = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -60,8 +60,8 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartAnnotationState)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.classDistributionChart)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartAnnotationState)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAddCollection
@@ -230,8 +230,8 @@
             // toolStripProgressBar
             // 
             this.toolStripProgressBar.Name = "toolStripProgressBar";
+            this.toolStripProgressBar.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.toolStripProgressBar.Size = new System.Drawing.Size(90, 24);
-            this.toolStripProgressBar.Visible = false;
             // 
             // toolStripStatusLabel
             // 
@@ -260,23 +260,6 @@
             this.splitContainer1.SplitterDistance = 397;
             this.splitContainer1.TabIndex = 10;
             // 
-            // chartAnnotationState
-            // 
-            chartArea2.Name = "ChartArea1";
-            this.chartAnnotationState.ChartAreas.Add(chartArea2);
-            this.chartAnnotationState.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chartAnnotationState.Legends.Add(legend2);
-            this.chartAnnotationState.Location = new System.Drawing.Point(0, 0);
-            this.chartAnnotationState.Name = "chartAnnotationState";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartAnnotationState.Series.Add(series2);
-            this.chartAnnotationState.Size = new System.Drawing.Size(810, 368);
-            this.chartAnnotationState.TabIndex = 14;
-            this.chartAnnotationState.Text = "chart1";
-            // 
             // classDistributionChart
             // 
             chartArea1.Name = "ChartArea1";
@@ -293,6 +276,23 @@
             this.classDistributionChart.Size = new System.Drawing.Size(810, 397);
             this.classDistributionChart.TabIndex = 13;
             this.classDistributionChart.Text = "chart1";
+            // 
+            // chartAnnotationState
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chartAnnotationState.ChartAreas.Add(chartArea2);
+            this.chartAnnotationState.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend2.Name = "Legend1";
+            this.chartAnnotationState.Legends.Add(legend2);
+            this.chartAnnotationState.Location = new System.Drawing.Point(0, 0);
+            this.chartAnnotationState.Name = "chartAnnotationState";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartAnnotationState.Series.Add(series2);
+            this.chartAnnotationState.Size = new System.Drawing.Size(810, 368);
+            this.chartAnnotationState.TabIndex = 14;
+            this.chartAnnotationState.Text = "chart1";
             // 
             // MainWindow
             // 
@@ -318,8 +318,8 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chartAnnotationState)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.classDistributionChart)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartAnnotationState)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

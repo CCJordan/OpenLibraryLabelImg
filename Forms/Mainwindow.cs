@@ -120,7 +120,7 @@ namespace OpenLibraryLabelImg.Forms
                 classDistributionChart.Series.Add(s1);
                 classDistributionChart.Legends.Clear();
             }
-
+            classDistributionChart.ChartAreas[0].AxisY.Maximum = classDistributionChart.Series.Max(x => x.Points[0].YValues[0]) * 1.2;
             chartAnnotationState.Series.Clear();
             i = 0;
             
@@ -293,6 +293,7 @@ namespace OpenLibraryLabelImg.Forms
                 }
             }
 
+            context.Images.RemoveRange(context.Images.Where(i => selectedCollection.Images.Contains(i)));
             context.Collections.Remove(context.Collections.Find(selectedCollection.Id));
             selectedCollection = null;
             await context.SaveChangesAsync();
