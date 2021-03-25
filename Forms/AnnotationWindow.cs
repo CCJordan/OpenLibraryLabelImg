@@ -104,6 +104,8 @@ namespace OpenLibraryLabelImg.Forms
             pictureBox.Invalidate(true);
             pictureBox.Update();
 
+            listBox1.Items.AddRange(Collection.Images.Select(i => i.FileName).ToArray());
+
             Helpers.window.UpdateProgressbar(-1, 100);
         }
 
@@ -122,15 +124,17 @@ namespace OpenLibraryLabelImg.Forms
             if (pictureBox.Image != null) {
                 pictureBox.Image.Dispose();
             }
-        
-            currentImage = images[CurrentIndex];
-            pictureBox.Image = Image.FromFile(workingDirectory + currentImage.FileName);
-            nOfMLabel.Text = $"{CurrentIndex + 1} / {images.Count}";
 
             while (pictureBox.Controls.Count > 0)
             {
                 pictureBox.Controls[0].Dispose();
             }
+
+            currentImage = images[CurrentIndex];
+            pictureBox.Image = Image.FromFile(workingDirectory + currentImage.FileName);
+            nOfMLabel.Text = $"{CurrentIndex + 1} / {images.Count}";
+
+            listBox1.SelectedIndex = listBox1.Items.IndexOf(currentImage.FileName);
 
             recalculateImage();
 
@@ -314,6 +318,11 @@ namespace OpenLibraryLabelImg.Forms
 
             pictureBox.Invalidate(true);
             pictureBox.Update();
+        }
+
+        private void listBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            CurrentIndex = images.IndexOf(images.Where(i => i.FileName == listBox1.SelectedItem as string).First());
         }
     }
 }
