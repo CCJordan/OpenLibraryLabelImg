@@ -109,7 +109,7 @@ namespace OpenLibraryLabelImg.Forms
 
         private void updateCollectionDiagrams() {
             var collection = context.Collections.Include(c => c.Classes).Include(c => c.Images).Include("Images.Boxes").Include("Images.Boxes.Class").First(c => c.Id == selectedCollection.Id);
-            classDistributionChart.Series.Clear();
+            // classDistributionChart.Series.Clear();
             var images = collection.Images;
             var classes = collection.Images.SelectMany(img => img.Boxes).Select(b => b.Class);
             int i = 0;
@@ -117,24 +117,23 @@ namespace OpenLibraryLabelImg.Forms
             {
                 var s1 = new Series(c.Title) { Color = c.Color, AxisLabel = c.Title, ChartType = SeriesChartType.Column };
                 s1.Points.AddXY(i++, classes.Where(cl => cl.Id == c.Id).Count());
-                classDistributionChart.Series.Add(s1);
-                classDistributionChart.Legends.Clear();
+                // classDistributionChart.Series.Add(s1);
+                // classDistributionChart.Legends.Clear();
             }
-            classDistributionChart.ChartAreas[0].AxisY.Maximum = classDistributionChart.Series.Max(x => x.Points[0].YValues[0]) * 1.2;
-            chartAnnotationState.Series.Clear();
+            // classDistributionChart.ChartAreas[0].AxisY.Maximum = classDistributionChart.Series.Max(x => x.Points[0].YValues[0]) * 1.2;
+            // chartAnnotationState.Series.Clear();
             i = 0;
             
             var s = new Series("Annotated") { Color = Color.Green, AxisLabel = "Annotated", ChartType = SeriesChartType.Pie };
             s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.Annotated).Count());
-            chartAnnotationState.Series.Add(s);
+            // chartAnnotationState.Series.Add(s);
             s = new Series("AutoAnnotated") { Color = Color.Green, AxisLabel = "AutoAnnotated", ChartType = SeriesChartType.Pie };
             s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.AutoAnnotated).Count());
-            chartAnnotationState.Series.Add(s);
+            // chartAnnotationState.Series.Add(s);
             s = new Series("Unseen") { Color = Color.Green, AxisLabel = "Unseen", ChartType = SeriesChartType.Pie };
             s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.Unseen).Count());
-            chartAnnotationState.Series.Add(s);
-            chartAnnotationState.Legends.Clear();
-            
+            // chartAnnotationState.Series.Add(s);
+            // chartAnnotationState.Legends.Clear();
         }
 
         private void selectNet(object sender, EventArgs e)

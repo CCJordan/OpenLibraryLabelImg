@@ -28,12 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.btnAddCollection = new System.Windows.Forms.Button();
             this.btnRemoveCollection = new System.Windows.Forms.Button();
             this.pnlCollectionDetails = new System.Windows.Forms.FlowLayoutPanel();
@@ -50,8 +44,8 @@
             this.toolStripProgressBar = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.classDistributionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chartAnnotationState = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -60,14 +54,12 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.classDistributionChart)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartAnnotationState)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAddCollection
             // 
             this.btnAddCollection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddCollection.Location = new System.Drawing.Point(599, 740);
+            this.btnAddCollection.Location = new System.Drawing.Point(599, 779);
             this.btnAddCollection.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddCollection.Name = "btnAddCollection";
             this.btnAddCollection.Size = new System.Drawing.Size(31, 39);
@@ -79,7 +71,7 @@
             // btnRemoveCollection
             // 
             this.btnRemoveCollection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemoveCollection.Location = new System.Drawing.Point(563, 740);
+            this.btnRemoveCollection.Location = new System.Drawing.Point(563, 779);
             this.btnRemoveCollection.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRemoveCollection.Name = "btnRemoveCollection";
             this.btnRemoveCollection.Size = new System.Drawing.Size(31, 39);
@@ -96,13 +88,13 @@
             this.pnlCollectionDetails.Location = new System.Drawing.Point(11, 24);
             this.pnlCollectionDetails.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlCollectionDetails.Name = "pnlCollectionDetails";
-            this.pnlCollectionDetails.Size = new System.Drawing.Size(619, 712);
+            this.pnlCollectionDetails.Size = new System.Drawing.Size(619, 751);
             this.pnlCollectionDetails.TabIndex = 3;
             // 
             // btnAddClass
             // 
             this.btnAddClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnAddClass.Location = new System.Drawing.Point(458, 701);
+            this.btnAddClass.Location = new System.Drawing.Point(458, 740);
             this.btnAddClass.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddClass.Name = "btnAddClass";
             this.btnAddClass.Size = new System.Drawing.Size(31, 39);
@@ -114,7 +106,7 @@
             // btnRemoveClass
             // 
             this.btnRemoveClass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemoveClass.Location = new System.Drawing.Point(422, 701);
+            this.btnRemoveClass.Location = new System.Drawing.Point(422, 740);
             this.btnRemoveClass.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRemoveClass.Name = "btnRemoveClass";
             this.btnRemoveClass.Size = new System.Drawing.Size(31, 39);
@@ -132,7 +124,7 @@
             this.pnlClasses.Location = new System.Drawing.Point(-4, 0);
             this.pnlClasses.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlClasses.Name = "pnlClasses";
-            this.pnlClasses.Size = new System.Drawing.Size(495, 697);
+            this.pnlClasses.Size = new System.Drawing.Size(495, 736);
             this.pnlClasses.TabIndex = 7;
             // 
             // tabControl1
@@ -141,11 +133,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(1448, 10);
+            this.tabControl1.Location = new System.Drawing.Point(1416, 10);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(499, 784);
+            this.tabControl1.Size = new System.Drawing.Size(499, 823);
             this.tabControl1.TabIndex = 8;
             // 
             // tabPage1
@@ -157,7 +149,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage1.Size = new System.Drawing.Size(491, 751);
+            this.tabPage1.Size = new System.Drawing.Size(491, 790);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Classes";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -220,10 +212,10 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripProgressBar,
             this.toolStripStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 786);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 825);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 13, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1957, 32);
+            this.statusStrip1.Size = new System.Drawing.Size(1925, 32);
             this.statusStrip1.TabIndex = 9;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -251,54 +243,44 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.classDistributionChart);
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.chartAnnotationState);
-            this.splitContainer1.Size = new System.Drawing.Size(810, 769);
-            this.splitContainer1.SplitterDistance = 397;
+            this.splitContainer1.Panel2.Controls.Add(this.label2);
+            this.splitContainer1.Size = new System.Drawing.Size(778, 808);
+            this.splitContainer1.SplitterDistance = 417;
             this.splitContainer1.TabIndex = 10;
             // 
-            // classDistributionChart
+            // label1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.classDistributionChart.ChartAreas.Add(chartArea1);
-            this.classDistributionChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.classDistributionChart.Legends.Add(legend1);
-            this.classDistributionChart.Location = new System.Drawing.Point(0, 0);
-            this.classDistributionChart.Name = "classDistributionChart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.classDistributionChart.Series.Add(series1);
-            this.classDistributionChart.Size = new System.Drawing.Size(810, 397);
-            this.classDistributionChart.TabIndex = 13;
-            this.classDistributionChart.Text = "chart1";
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(321, 178);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(139, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Here be diagrams.";
             // 
-            // chartAnnotationState
+            // label2
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chartAnnotationState.ChartAreas.Add(chartArea2);
-            this.chartAnnotationState.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Name = "Legend1";
-            this.chartAnnotationState.Legends.Add(legend2);
-            this.chartAnnotationState.Location = new System.Drawing.Point(0, 0);
-            this.chartAnnotationState.Name = "chartAnnotationState";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartAnnotationState.Series.Add(series2);
-            this.chartAnnotationState.Size = new System.Drawing.Size(810, 368);
-            this.chartAnnotationState.TabIndex = 14;
-            this.chartAnnotationState.Text = "chart1";
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(336, 174);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(139, 20);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Here be diagrams.";
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1957, 818);
+            this.ClientSize = new System.Drawing.Size(1925, 857);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.tabControl1);
@@ -315,11 +297,11 @@
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.classDistributionChart)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chartAnnotationState)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -342,7 +324,7 @@
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart classDistributionChart;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartAnnotationState;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
