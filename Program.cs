@@ -1,3 +1,4 @@
+using OpenLibraryLabelImg.Forms;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -9,6 +10,8 @@ namespace OpenLibraryLabelImg
 {
     static class Program
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -17,20 +20,27 @@ namespace OpenLibraryLabelImg
         {
             var culture = CultureInfo.GetCultureInfo("en-US");
 
-            // this may fail sometimes: (see Drachenkatze's comment below)
-            // var culture = new CultureInfo("en-US");
-
             //Culture for any thread
             CultureInfo.DefaultThreadCurrentCulture = culture;
 
             //Culture for UI in any thread
             CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            Application.Run(new MainWindow());
+#if !DEBUG
+            try
+            {
+#endif
+            MainWindow mainForm = new MainWindow();
+            Application.Run(mainForm);
+#if !DEBUG
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e);
+            }
+#endif
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using OpenLibraryLabelImg.Data;
+﻿using OpenLibraryLabelImg.Data;
 using OpenLibraryLabelImg.Model;
 using OpenLibraryLabelImg.UserControls;
 using System;
@@ -9,7 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace OpenLibraryLabelImg
+namespace OpenLibraryLabelImg.Forms
 {
     public partial class AnnotationWindow : Form
     {
@@ -18,8 +17,10 @@ namespace OpenLibraryLabelImg
         private AnnotationPanel unfinishedPnl;
         private readonly List<AnnotationPanel> annotationPanels = new List<AnnotationPanel>();
         private readonly List<AnnotationImage> images;
-        private AnnotationPanel selectedPanel;
+
         private readonly AnnotationContext context = new AnnotationContext();
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
 
         private readonly List<AnnotationClass> annotationClasses;
         private int currentClass;
@@ -31,7 +32,7 @@ namespace OpenLibraryLabelImg
                 currentClass = value;
                 if (annotationClasses != null)
                 {
-                    SelectedClassLabel.Text = $"{annotationClasses[CurrentClass].ClassLabel}, {CurrentClass}";
+                    SelectedClassLabel.Text = $"{annotationClasses[CurrentClass].Title}, {CurrentClass}";
                 }
             }
         }
@@ -64,9 +65,9 @@ namespace OpenLibraryLabelImg
             AllowTransparency = true;
             DoubleBuffered = false;
             Collection = context.Collections
-                                    .Include(c => c.Classes)
-                                    .Include(c => c.Images)
-                                        .ThenInclude(i => i.Boxes)
+                                        .Include("Classes")
+                                        .Include("Images")
+                                        .Include("Images.Boxes")
                                     .Where(c => c.Id == collection.Id)
                                     .FirstOrDefault();
             if (Collection == null)
@@ -74,12 +75,15 @@ namespace OpenLibraryLabelImg
                 throw new Exception("Collection could not be found.");
             }
 
+            Logger.Info($"Starting Collection window.");
+
             Text = $"OpenLibraryLabelImg Annotator - {Collection.Title}";
 
             workingDirectory = Collection?.BasePath;
             openFolder(workingDirectory);
             annotationClasses = Collection.Classes.ToList();
             images = Collection.Images.ToList();
+            Logger.Info($"Details loaded.");
 
             Disposed += dispose;
         }
@@ -97,12 +101,6 @@ namespace OpenLibraryLabelImg
                 SetCurrentIndex(0);
             }
 
-            int i = 0;
-            foreach (AnnotationClass c in annotationClasses)
-            {
-                classMenu.Items.Insert(i++, new ToolStripMenuItem(c.ClassLabel));
-            }
-            classMenu.ItemClicked += ContextMenuStrip_ItemClicked;
             pictureBox.Invalidate(true);
             pictureBox.Update();
 
@@ -111,6 +109,7 @@ namespace OpenLibraryLabelImg
 
         private void openFolder(string folder)
         {
+            Logger.Debug($"Importing folder {folder}");
             Helpers.ImportFolder(folder, Collection, true);
 
             context.SaveChanges();
@@ -118,6 +117,8 @@ namespace OpenLibraryLabelImg
 
         private void updateImage()
         {
+            Logger.Info($"Updating image. Loading image id {images[CurrentIndex].Id}");
+
             if (pictureBox.Image != null) {
                 pictureBox.Image.Dispose();
             }
@@ -133,19 +134,28 @@ namespace OpenLibraryLabelImg
 
             recalculateImage();
 
-            if (currentImage.Boxes?.Count > 0)
+            if (currentImage.Boxes.Count > 0)
             {
+                Logger.Debug($"Adding {currentImage.Boxes?.Count} boxes");
                 foreach (AnnotationBox b in currentImage.Boxes)
                 {
                     var panel = new AnnotationPanel(b.Class) { AnnotationBox = b };
                     panel.Visible = false;
                     pictureBox.Controls.Add(panel);
                     panel.AnnotationUpdated += updateAnnotation;
-                    panel.ContextMenuStrip = classMenu;
-                    panel.MouseClick += annotationPanelSelected;
+                    panel.ContextMenuStrip = new ContextMenuStrip();
+
+                    int i = 0;
+                    foreach (AnnotationClass c in annotationClasses)
+                    {
+                        panel.ContextMenuStrip.Items.Insert(i++, new ToolStripMenuItem(c.Title));
+                    }
+                    panel.ContextMenuStrip.Items.Insert(i, new ToolStripMenuItem("Delete"));
+                    panel.ContextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
                 }
 
                 pictureBox_SizeChanged(null, null);
+                Logger.Info($"Redrew picturebox.");
             }
         }
 
@@ -226,31 +236,45 @@ namespace OpenLibraryLabelImg
                 pnl.GrappedSize = new Point(15, 15);
                 pnl.SetBounds(e.X, e.Y, 15, 15);
                 pnl.AnnotationUpdated += updateAnnotation;
-                pnl.ContextMenuStrip = classMenu;
-                // pnl.ContextMenuStrip.Click += ContextMenuStrip_ItemClicked;
-                pnl.MouseMove += annotationPanelSelected;
+                pnl.ContextMenuStrip = new ContextMenuStrip();
+                int i = 0;
+                foreach (AnnotationClass c in annotationClasses)
+                {
+                    pnl.ContextMenuStrip.Items.Insert(i++, new ToolStripMenuItem(c.Title));
+                }
+                pnl.ContextMenuStrip.Items.Insert(i, new ToolStripMenuItem("Delete"));
+                pnl.ContextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
+                
                 unfinishedPnl = pnl;
             }
         }
 
-        private void annotationPanelSelected(object sender, EventArgs e) {
-            selectedPanel = (AnnotationPanel)sender;
-        }
-
         private void ContextMenuStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            if (e.ClickedItem.Text == "Löschen")
+            var p = (ContextMenuStrip)sender;
+
+            AnnotationPanel parent = ((AnnotationPanel)p.SourceControl);
+            
+
+            if (e.ClickedItem.Text == "Delete")
             {
-                pictureBox.Controls.Remove(selectedPanel);
-                selectedPanel.Dispose();
+                AnnotationBox annotationBox = parent.AnnotationBox;
+                Logger.Debug($"Deleting Annotation {annotationBox.Id} with class id {annotationBox.Class.Id}");
+                pictureBox.Controls.Remove(p.SourceControl);
+                
+                var img = annotationBox.AnnotaionImage;
+                img.Boxes.Remove(annotationBox);
+                context.Boxes.Remove(annotationBox);
+                p.SourceControl.Dispose();
             }
             else
             {
-                selectedPanel.AnnotationBox.Class = context.Classes.Where(c => c.ClassLabel == e.ClickedItem.Text).First();
-                currentImage.State = AnnotationState.Annotated;
-                context.SaveChanges();
+                Logger.Debug($"Changing Annotation {parent.AnnotationBox.Id} with class id {parent.AnnotationBox.Class.Id} to class {e.ClickedItem.Text}");
+                parent.AnnotationBox.Class = context.Classes.Where(c => c.Title == e.ClickedItem.Text).First();
             }
-            pictureBox.Invalidate();
+            currentImage.State = AnnotationState.Annotated;
+            context.SaveChanges();
+            pictureBox_SizeChanged(null, null);
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -275,6 +299,10 @@ namespace OpenLibraryLabelImg
 
         private void pictureBox_SizeChanged(object sender, EventArgs e)
         {
+            if (pictureBox.Image == null) {
+                return;
+            }
+
             recalculateImage();
             foreach (AnnotationPanel item in pictureBox.Controls)
             {

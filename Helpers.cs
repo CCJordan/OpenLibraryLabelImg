@@ -1,5 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
+using OpenLibraryLabelImg.Data;
+using OpenLibraryLabelImg.Forms;
 using OpenLibraryLabelImg.Model;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace OpenLibraryLabelImg
         public static void ImportFolder(string folder, AnnotationCollection collection, bool skipExsisting)
         {
             
-            if (!folder.EndsWith(Path.DirectorySeparatorChar))
+            if (!folder.EndsWith("" + Path.DirectorySeparatorChar))
             {
                 folder += Path.DirectorySeparatorChar;
             }
@@ -37,7 +39,9 @@ namespace OpenLibraryLabelImg
             for (int i = 0; i < files.Length; i++)
             {
                 string filePath = files[i];
-                if (filePath[filePath.LastIndexOf('.')..] == ".txt")
+                Application.DoEvents();
+                window.UpdateProgressbar(i, files.Length);
+                if (filePath.Substring(filePath.LastIndexOf('.')) == ".txt")
                 {
                     needsMapping = true;
                     idsFromFiles.AddRange(importBoxes(filePath).Select(b => b.ClassId).Distinct().Where(cid => !idsFromFiles.Contains(cid)));
@@ -63,14 +67,15 @@ namespace OpenLibraryLabelImg
             // Import
             for (int i = 0; i < files.Length; i++)
             {
+                Application.DoEvents();
                 string filePath = files[i];
                 window.UpdateProgressbar(i, files.Length);
                 // Check file extension
-                if (!SupportedFileTypes.Contains(filePath[filePath.LastIndexOf('.')..])) {
+                if (!SupportedFileTypes.Contains(filePath.Substring(filePath.LastIndexOf('.')))) {
                     continue;
                 }
 
-                var fileName = filePath[folder.Length..];
+                var fileName = filePath.Substring(folder.Length);
                 var targetFile = collection.BasePath + fileName;
                 if (folder != collection.BasePath)
                 {
@@ -116,7 +121,7 @@ namespace OpenLibraryLabelImg
                         collection.Images.Add(aImg);
                     }
 
-                    var classFileName = filePath.Remove(filePath.LastIndexOf('.')) + ".txt";
+                    var classFileName = folder + filePath.Remove(filePath.LastIndexOf('.')) + ".txt";
                     if (File.Exists(classFileName))
                     {
                         importBoxes(classFileName).ForEach(b => {
@@ -153,6 +158,73 @@ namespace OpenLibraryLabelImg
                 }
                 catch (Exception ex) {
                     return new List<AnnotationBox>();
+                }
+            }
+        }
+
+        internal static void ImportFolderAnnotations(string folder, AnnotationCollection collection)
+        {
+            if (!folder.EndsWith("" + Path.DirectorySeparatorChar))
+            {
+                folder += Path.DirectorySeparatorChar;
+            }
+            if (!Directory.Exists(folder))
+            {
+                return;
+            }
+
+            string[] files = Directory.GetFiles(folder);
+            List<Model.ClassMap> mapping;
+            Dictionary<int, int> idMapper = null;
+            var idsFromFiles = new List<int>();
+            bool needsMapping = false;
+            // Scan for txt files, if encountered request classmapping from user
+            for (int i = 0; i < files.Length; i++)
+            {
+                string filePath = files[i];
+                window.UpdateProgressbar(i, files.Length);
+                Application.DoEvents();
+                if (filePath.Substring(filePath.LastIndexOf('.')) == ".txt")
+                {
+                    needsMapping = true;
+                    idsFromFiles.AddRange(importBoxes(filePath).Select(b => b.ClassId).Distinct().Where(cid => !idsFromFiles.Contains(cid)));
+                }
+            }
+
+            if (collection.Classes.Count < idsFromFiles.Count)
+            {
+                MessageBox.Show($"The folder you are trying to import contains {idsFromFiles.Count} classes, which is more than your collection has. Please add {idsFromFiles.Count - collection.Classes.Count} classes to this collection.");
+                return;
+            }
+
+            if (needsMapping)
+            {
+                mapping = collection.Classes.Select(c => new Model.ClassMap() { AnnotationClass = c, AnnotationClassId = c.Id, MappedId = 0 }).ToList();
+                var classMapperDialog = new ClassMapperWindow(mapping);
+                if (classMapperDialog.ShowDialog() != DialogResult.OK)
+                {
+                    return;
+                }
+                mapping = classMapperDialog.Mapping;
+                idMapper = mapping.ToDictionary(m => m.MappedId, m => m.AnnotationClassId);
+            }
+
+            for (int i = 0; i < files.Length; i++)
+            {
+                Application.DoEvents();
+                string filePath = files[i];
+                var fileName = filePath.Substring(folder.Length, filePath.LastIndexOf(".") - folder.Length);
+
+                if (filePath.Substring(filePath.LastIndexOf('.')) == ".txt")
+                {
+                    var aImg = collection.Images.FirstOrDefault(img => img.FileName.StartsWith(fileName));
+                    if (aImg != null) {
+                        importBoxes(folder + fileName + ".txt").ForEach(b => {
+                            b.Class = collection.Classes.First(c => c.Id == idMapper[b.ClassId]);
+                            aImg.Boxes.Add(b);
+                        });
+                        aImg.State = AnnotationState.AutoAnnotated;
+                    }
                 }
             }
         }

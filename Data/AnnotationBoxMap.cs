@@ -1,7 +1,7 @@
 ﻿using OpenLibraryLabelImg.Model;
 using CsvHelper.Configuration;
 
-namespace OpenLibraryLabelImg
+namespace OpenLibraryLabelImg.Data
 {
     public class AnnotationBoxMap : ClassMap<AnnotationBox> {
         public AnnotationBoxMap() {

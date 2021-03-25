@@ -1,6 +1,5 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using Microsoft.EntityFrameworkCore;
 using OpenLibraryLabelImg.Data;
 using OpenLibraryLabelImg.Model;
 using System;
@@ -25,8 +24,8 @@ namespace OpenLibraryLabelImg.UserControls
             context.Collections.Add(collection);
             context.SaveChanges();
             Collection = context.Collections
-                .Include(c => c.Classes)
-                .Include(c => c.Images)
+                .Include("Classes")
+                .Include("Images")
                 .FirstOrDefault(c => c.Id == collection.Id);
             updateNOfMLabel();
 
@@ -37,8 +36,8 @@ namespace OpenLibraryLabelImg.UserControls
         {
             InitializeComponent();
             Collection = context.Collections
-                    .Include(c => c.Classes)
-                    .Include(c => c.Images)
+                    .Include("Classes")
+                    .Include("Images")
                     .FirstOrDefault(c => c.Id == collection.Id);
 
             txtName.Text = Collection.Title;
@@ -61,19 +60,20 @@ namespace OpenLibraryLabelImg.UserControls
         public void RefreshClasses()
         {
             // Refresh data
-            var col = context.Collections.Include(c => c.Classes).Include(c => c.Images).FirstOrDefault(c => c.Id == Collection.Id);
+            var col = context.Collections.Include("Classes")
+                                        .Include("Images").FirstOrDefault(c => c.Id == Collection.Id);
             lblClasses.Text = Collection.Classes?.Count + " classes";
 
             checkedListBoxClasses.Items.Clear();
 
-            checkedListBoxClasses.Items.AddRange(context.Classes.AsNoTracking().Select(c => c.ClassLabel).ToArray());
+            checkedListBoxClasses.Items.AddRange(context.Classes.AsNoTracking().Select(c => c.Title + "").ToArray());
             if (col == null) {
                 return;
             }
             for (int i = 0; i < checkedListBoxClasses.Items.Count; i++)
             {
                 var item = checkedListBoxClasses.Items[i] as string;
-                checkedListBoxClasses.SetItemChecked(i, col.Classes.Any(c => c.ClassLabel == item));
+                checkedListBoxClasses.SetItemChecked(i, col.Classes.Any(c => c.Title == item));
             }
         }
 
@@ -85,7 +85,7 @@ namespace OpenLibraryLabelImg.UserControls
 
         private void txtPath_Leave(object sender, EventArgs e)
         {
-            if (!txtPath.Text.EndsWith(Path.DirectorySeparatorChar)) {
+            if (!txtPath.Text.EndsWith("" + Path.DirectorySeparatorChar)) {
                 txtPath.Text += Path.DirectorySeparatorChar;
             }
             Collection.BasePath = txtPath.Text;
@@ -127,7 +127,7 @@ namespace OpenLibraryLabelImg.UserControls
             Collection.Classes.Clear();
             foreach (string item in checkedListBoxClasses.CheckedItems)
             {
-                var cls = context.Classes.Where(c => c.ClassLabel == item).FirstOrDefault();
+                var cls = context.Classes.Where(c => c.Title == item).FirstOrDefault();
                 Collection.Classes.Add(cls);
             }
             context.SaveChanges();
@@ -151,6 +151,20 @@ namespace OpenLibraryLabelImg.UserControls
             Helpers.ImportFolder(folder, Collection, false);
 
             context.SaveChanges();
-        }       
+        }
+
+        private void btnImportAnnotations_Click(object sender, EventArgs e)
+        {
+            var fbd = new FolderBrowserDialog();
+            if (Directory.Exists(Collection.BasePath))
+            {
+                fbd.SelectedPath = Collection.BasePath;
+            }
+            fbd.RootFolder = Environment.SpecialFolder.MyComputer;
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                Helpers.ImportFolderAnnotations(fbd.SelectedPath, Collection);
+            }
+        }
     }
 }

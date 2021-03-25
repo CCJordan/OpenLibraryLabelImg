@@ -82,7 +82,7 @@ namespace OpenLibraryLabelImg.UserControls
                 e.Graphics.DrawLines(hatchingPen, lines.ToArray());
             }
 
-            var label = AnnotationBox.Class.ClassLabel + ", " + debugInfo;
+            var label = AnnotationBox.Class.Title + ", " + debugInfo;
             var labelRectangle = e.Graphics.MeasureString(label, DefaultFont);
             e.Graphics.FillRectangle(new SolidBrush(Color.LightGray), 5, 5, labelRectangle.Width, labelRectangle.Height);
             e.Graphics.DrawString(label, DefaultFont, new SolidBrush(Color.Black), new PointF(5, 5));

@@ -30,13 +30,13 @@ namespace OpenLibraryLabelImg.UserControls
             this.cls = cls;
             context = ctx;
             btnColor.BackColor = cls.Color;
-            txtClassLabel.Text = cls.ClassLabel;
+            txtClassLabel.Text = cls.Title;
             txtDescription.Text = cls.Description;
         }
 
         private async void txtClassLabel_Leave(object sender, EventArgs e)
         {
-            cls.ClassLabel = txtClassLabel.Text;
+            cls.Title = txtClassLabel.Text;
             await context.SaveChangesAsync();
             ClassLabelChanged();
         }
