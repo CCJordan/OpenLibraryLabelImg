@@ -29,39 +29,42 @@ namespace OpenLibraryLabelImg
             {
                 return;
             }
-
             string[] files = Directory.GetFiles(folder);
-            List<Model.ClassMap> mapping;
             Dictionary<int, int> idMapper = null;
-            var idsFromFiles = new List<int>();
-            bool needsMapping = false;
-            // Scan for txt files, if encountered request classmapping from user
-            for (int i = 0; i < files.Length; i++)
-            {
-                string filePath = files[i];
-                Application.DoEvents();
-                window.UpdateProgressbar(i, files.Length);
-                if (filePath.Substring(filePath.LastIndexOf('.')) == ".txt")
+
+            if (!skipExsisting) 
+            { 
+                List<Model.ClassMap> mapping;
+                var idsFromFiles = new List<int>();
+                bool needsMapping = false;
+                // Scan for txt files, if encountered request classmapping from user
+                for (int i = 0; i < files.Length; i++)
                 {
-                    needsMapping = true;
-                    idsFromFiles.AddRange(importBoxes(filePath).Select(b => b.ClassId).Distinct().Where(cid => !idsFromFiles.Contains(cid)));
+                    string filePath = files[i];
+                    Application.DoEvents();
+                    window.UpdateProgressbar(i, files.Length);
+                    if (filePath.Substring(filePath.LastIndexOf('.')) == ".txt")
+                    {
+                        needsMapping = true;
+                        idsFromFiles.AddRange(importBoxes(filePath).Select(b => b.ClassId).Distinct().Where(cid => !idsFromFiles.Contains(cid)));
+                    }
                 }
-            }
 
-            if (collection.Classes.Count < idsFromFiles.Count) {
-                MessageBox.Show($"The folder you are trying to import contains {idsFromFiles.Count} classes, which is more than your collection has. Please add {idsFromFiles.Count - collection.Classes.Count} classes to this collection.");
-                return;
-            }
-
-            if (needsMapping) {
-                mapping = collection.Classes.Select(c => new Model.ClassMap() { AnnotationClass = c, AnnotationClassId = c.Id, MappedId = 0 }).ToList();
-                var classMapperDialog = new ClassMapperWindow(mapping);
-                if (classMapperDialog.ShowDialog() != DialogResult.OK)
-                {
+                if (collection.Classes.Count < idsFromFiles.Count) {
+                    MessageBox.Show($"The folder you are trying to import contains {idsFromFiles.Count} classes, which is more than your collection has. Please add {idsFromFiles.Count - collection.Classes.Count} classes to this collection.");
                     return;
                 }
-                mapping = classMapperDialog.Mapping;
-                idMapper = mapping.ToDictionary(m => m.MappedId, m => m.AnnotationClassId);
+
+                if (needsMapping) {
+                    mapping = collection.Classes.Select(c => new Model.ClassMap() { AnnotationClass = c, AnnotationClassId = c.Id, MappedId = 0 }).ToList();
+                    var classMapperDialog = new ClassMapperWindow(mapping);
+                    if (classMapperDialog.ShowDialog() != DialogResult.OK)
+                    {
+                        return;
+                    }
+                    mapping = classMapperDialog.Mapping;
+                    idMapper = mapping.ToDictionary(m => m.MappedId, m => m.AnnotationClassId);
+                }
             }
 
             // Import

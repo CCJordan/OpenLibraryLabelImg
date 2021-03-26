@@ -1,6 +1,7 @@
 ﻿using CsvHelper.Configuration.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace OpenLibraryLabelImg.Model
@@ -24,6 +25,9 @@ namespace OpenLibraryLabelImg.Model
         public int AnnotaionImageId { get; set; }
 
         public AnnotationImage AnnotaionImage { get; set; }
+
+        [NotMapped]
+        public double Area { get => Width * Height; }
 
         public AnnotationBox ExportAsYOLO() {
             var r = new AnnotationBox
