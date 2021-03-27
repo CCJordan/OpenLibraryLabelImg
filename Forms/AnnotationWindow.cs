@@ -17,12 +17,10 @@ namespace OpenLibraryLabelImg.Forms
         private AnnotationPanel unfinishedPnl;
         private readonly List<AnnotationPanel> annotationPanels = new List<AnnotationPanel>();
         private readonly List<AnnotationImage> images;
-
         private readonly AnnotationContext context = new AnnotationContext();
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
-
         private readonly List<AnnotationClass> annotationClasses;
+
         private int currentClass;
         private int CurrentClass
         {
@@ -56,7 +54,7 @@ namespace OpenLibraryLabelImg.Forms
 
         private AnnotationImage currentImage;
 
-        Size imageSize;
+        private Size imageSize;
         private Point imageOffset;
 
         public AnnotationWindow(AnnotationCollection collection)
@@ -122,15 +120,15 @@ namespace OpenLibraryLabelImg.Forms
             if (pictureBox.Image != null) {
                 pictureBox.Image.Dispose();
             }
-        
-            currentImage = images[CurrentIndex];
-            pictureBox.Image = Image.FromFile(workingDirectory + currentImage.FileName);
-            nOfMLabel.Text = $"{CurrentIndex + 1} / {images.Count}";
 
             while (pictureBox.Controls.Count > 0)
             {
                 pictureBox.Controls[0].Dispose();
             }
+
+            currentImage = images[CurrentIndex];
+            pictureBox.Image = Image.FromFile(workingDirectory + currentImage.FileName);
+            nOfMLabel.Text = $"{CurrentIndex + 1} / {images.Count}";
 
             recalculateImage();
 
@@ -142,13 +140,14 @@ namespace OpenLibraryLabelImg.Forms
                     var panel = new AnnotationPanel(b.Class) { AnnotationBox = b };
                     panel.Visible = false;
                     pictureBox.Controls.Add(panel);
+
                     panel.AnnotationUpdated += updateAnnotation;
                     panel.ContextMenuStrip = new ContextMenuStrip();
 
                     int i = 0;
                     foreach (AnnotationClass c in annotationClasses)
                     {
-                        panel.ContextMenuStrip.Items.Insert(i++, new ToolStripMenuItem(c.Title));
+                        panel.ContextMenuStrip.Items.Insert(i++, new ToolStripMenuItem(c.Title) { Checked = c.Id == b.ClassId } );
                     }
                     panel.ContextMenuStrip.Items.Insert(i, new ToolStripMenuItem("Delete"));
                     panel.ContextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
@@ -190,7 +189,7 @@ namespace OpenLibraryLabelImg.Forms
             context.SaveChanges();
         }
 
-        private async void AnnotationWindow_KeyDown(object sender, KeyEventArgs e)
+        private void AnnotationWindow_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -211,7 +210,7 @@ namespace OpenLibraryLabelImg.Forms
                 case Keys.Space:
                     if (currentImage.State != AnnotationState.Annotated) {
                         currentImage.State = AnnotationState.Annotated;
-                        await context.SaveChangesAsync();
+                        context.SaveChanges();
                         pictureBox_SizeChanged(null, null);
                     }
                     break;
@@ -240,7 +239,7 @@ namespace OpenLibraryLabelImg.Forms
                 int i = 0;
                 foreach (AnnotationClass c in annotationClasses)
                 {
-                    pnl.ContextMenuStrip.Items.Insert(i++, new ToolStripMenuItem(c.Title));
+                    pnl.ContextMenuStrip.Items.Insert(i++, new ToolStripMenuItem(c.Title) { Checked = c.Id == currentClass });
                 }
                 pnl.ContextMenuStrip.Items.Insert(i, new ToolStripMenuItem("Delete"));
                 pnl.ContextMenuStrip.ItemClicked += ContextMenuStrip_ItemClicked;
@@ -271,6 +270,9 @@ namespace OpenLibraryLabelImg.Forms
             {
                 Logger.Debug($"Changing Annotation {parent.AnnotationBox.Id} with class id {parent.AnnotationBox.Class.Id} to class {e.ClickedItem.Text}");
                 parent.AnnotationBox.Class = context.Classes.Where(c => c.Title == e.ClickedItem.Text).First();
+                foreach (ToolStripMenuItem item in parent.ContextMenuStrip.Items) {
+                    item.Checked = item.Text == parent.AnnotationBox.Class.Title;
+                }
             }
             currentImage.State = AnnotationState.Annotated;
             context.SaveChanges();
@@ -304,8 +306,20 @@ namespace OpenLibraryLabelImg.Forms
             }
 
             recalculateImage();
-            foreach (AnnotationPanel item in pictureBox.Controls)
+            var panelList = new List<AnnotationPanel>();
+            foreach (AnnotationPanel item in pictureBox.Controls) {
+                var index = panelList.FindIndex(b => b.AnnotationBox.Area < item.AnnotationBox.Area);
+                if (index == -1) {
+                    panelList.Add(item);
+                } else {
+                    panelList.Insert(index + 1, item);
+                }
+            }
+
+            var i = 0;
+            foreach (AnnotationPanel item in panelList)
             {
+                pictureBox.Controls.SetChildIndex(item, i++);
                 item.Width = (int)(imageSize.Width * item.AnnotationBox.Width);
                 item.Height = (int)(imageSize.Height * item.AnnotationBox.Height);
                 item.Location = new Point((int)(item.AnnotationBox.X * imageSize.Width + imageOffset.X), (int)(item.AnnotationBox.Y * imageSize.Height + imageOffset.Y));

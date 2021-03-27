@@ -22,9 +22,7 @@ namespace OpenLibraryLabelImg.Forms
         private AnnotationCollection selectedCollection;
         private YoloNet selectedNetwork;
         private AnnotationWindow window;
-        // TODO: Write Documentation
-        // TODO: Write ReadMe File
-        // TODO: Internationalisierung
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +30,25 @@ namespace OpenLibraryLabelImg.Forms
             Helpers.window = this;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        public void UpdateProgressbar(int value, int max)
+        {
+            Logger.Debug($"Updating Progressbar {value} / {max}");
+            if (value != -1)
+            {
+                toolStripProgressBar.Maximum = max;
+                toolStripProgressBar.Value = value;
+                toolStripStatusLabel.Text = $"{value} / {max}";
+                toolStripStatusLabel.Visible = true;
+                toolStripProgressBar.Visible = true;
+            }
+            else
+            {
+                toolStripStatusLabel.Visible = false;
+                toolStripProgressBar.Visible = false;
+            }
+        }
+
+        private void MainWindow_Shown(object sender, EventArgs e)
         {
             Logger.Info($"{Assembly.GetExecutingAssembly().GetName()} starting up.");
 
@@ -41,7 +57,8 @@ namespace OpenLibraryLabelImg.Forms
             foreach (var collection in collections)
             {
                 var details = new CollectionDetailCell(collection);
-                if (selectedCollection == null) {
+                if (selectedCollection == null)
+                {
                     selectedCollection = collection;
                     details.BackColor = Color.DarkGray;
                     updateCollectionDiagrams();
@@ -51,6 +68,7 @@ namespace OpenLibraryLabelImg.Forms
                 details.DoubleClick += openCollection;
                 pnlCollectionDetails.Controls.Add(details);
                 details.Width = pnlCollectionDetails.Width - scrollBarWidth;
+                Application.DoEvents();
             }
 
             var classes = context.Classes.ToList();
@@ -62,6 +80,7 @@ namespace OpenLibraryLabelImg.Forms
                 details.ClassLabelChanged += updateClassLists;
                 pnlClasses.Controls.Add(details);
                 details.Width = pnlClasses.Width - scrollBarWidth;
+                Application.DoEvents();
             }
 
             var nets = context.Nets.Include(n => n.Collections).Include(n => n.ClassMapping).ToList();
@@ -72,6 +91,7 @@ namespace OpenLibraryLabelImg.Forms
                 details.Click += selectNet;
                 pnlNetworks.Controls.Add(details);
                 details.Width = pnlNetworks.Width - scrollBarWidth;
+                Application.DoEvents();
             }
         }
 
@@ -105,35 +125,6 @@ namespace OpenLibraryLabelImg.Forms
                     ctrl.BackColor = Color.FromKnownColor(KnownColor.Control);
                 }
             }
-        }
-
-        private void updateCollectionDiagrams() {
-            var collection = context.Collections.Include(c => c.Classes).Include(c => c.Images).Include("Images.Boxes").Include("Images.Boxes.Class").First(c => c.Id == selectedCollection.Id);
-            // classDistributionChart.Series.Clear();
-            var images = collection.Images;
-            var classes = collection.Images.SelectMany(img => img.Boxes).Select(b => b.Class);
-            int i = 0;
-            foreach (var c in collection.Classes)
-            {
-                var s1 = new Series(c.Title) { Color = c.Color, AxisLabel = c.Title, ChartType = SeriesChartType.Column };
-                s1.Points.AddXY(i++, classes.Where(cl => cl.Id == c.Id).Count());
-                // classDistributionChart.Series.Add(s1);
-                // classDistributionChart.Legends.Clear();
-            }
-            // classDistributionChart.ChartAreas[0].AxisY.Maximum = classDistributionChart.Series.Max(x => x.Points[0].YValues[0]) * 1.2;
-            // chartAnnotationState.Series.Clear();
-            i = 0;
-            
-            var s = new Series("Annotated") { Color = Color.Green, AxisLabel = "Annotated", ChartType = SeriesChartType.Pie };
-            s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.Annotated).Count());
-            // chartAnnotationState.Series.Add(s);
-            s = new Series("AutoAnnotated") { Color = Color.Green, AxisLabel = "AutoAnnotated", ChartType = SeriesChartType.Pie };
-            s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.AutoAnnotated).Count());
-            // chartAnnotationState.Series.Add(s);
-            s = new Series("Unseen") { Color = Color.Green, AxisLabel = "Unseen", ChartType = SeriesChartType.Pie };
-            s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.Unseen).Count());
-            // chartAnnotationState.Series.Add(s);
-            // chartAnnotationState.Legends.Clear();
         }
 
         private void selectNet(object sender, EventArgs e)
@@ -175,8 +166,51 @@ namespace OpenLibraryLabelImg.Forms
         private void annotationWindowClosed(object sender, EventArgs e) {
             Logger.Debug($"Annotation Window closed");
             updateCollections();
-            window.Dispose();
-            Logger.Debug($"Annotation Window closed, window disposed, data saved");
+            Logger.Debug($"Annotation Window closed, data saved");
+        }
+
+        private void updateClassLists() {
+            foreach (CollectionDetailCell ctrl in pnlCollectionDetails.Controls)
+            {
+                ctrl.RefreshClasses();
+            }
+        }
+
+        private void updateCollections() {
+            foreach (NetDetailCell ctrl in pnlNetworks.Controls)
+            {
+                ctrl.RefreshCollections();
+            }
+        }
+        
+        private void updateCollectionDiagrams()
+        {
+            var collection = context.Collections.Include(c => c.Classes).Include(c => c.Images).Include("Images.Boxes").Include("Images.Boxes.Class").First(c => c.Id == selectedCollection.Id);
+            // classDistributionChart.Series.Clear();
+            var images = collection.Images;
+            var classes = collection.Images.SelectMany(img => img.Boxes).Select(b => b.Class);
+            int i = 0;
+            foreach (var c in collection.Classes)
+            {
+                var s1 = new Series(c.Title) { Color = c.Color, AxisLabel = c.Title, ChartType = SeriesChartType.Column };
+                s1.Points.AddXY(i++, classes.Where(cl => cl.Id == c.Id).Count());
+                // classDistributionChart.Series.Add(s1);
+                // classDistributionChart.Legends.Clear();
+            }
+            // classDistributionChart.ChartAreas[0].AxisY.Maximum = classDistributionChart.Series.Max(x => x.Points[0].YValues[0]) * 1.2;
+            // chartAnnotationState.Series.Clear();
+            i = 0;
+
+            var s = new Series("Annotated") { Color = Color.Green, AxisLabel = "Annotated", ChartType = SeriesChartType.Pie };
+            s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.Annotated).Count());
+            // chartAnnotationState.Series.Add(s);
+            s = new Series("AutoAnnotated") { Color = Color.Green, AxisLabel = "AutoAnnotated", ChartType = SeriesChartType.Pie };
+            s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.AutoAnnotated).Count());
+            // chartAnnotationState.Series.Add(s);
+            s = new Series("Unseen") { Color = Color.Green, AxisLabel = "Unseen", ChartType = SeriesChartType.Pie };
+            s.Points.AddXY(i++, images.Where(img => img.State == AnnotationState.Unseen).Count());
+            // chartAnnotationState.Series.Add(s);
+            // chartAnnotationState.Legends.Clear();
         }
 
         private void btnAddCollection_Click(object sender, EventArgs e)
@@ -186,6 +220,7 @@ namespace OpenLibraryLabelImg.Forms
             details.CollectionChanged += updateCollections;
             details.Click += selectCollection;
             details.DoubleClick += openCollection;
+            details.Width = pnlCollectionDetails.Width - scrollBarWidth;
             pnlCollectionDetails.Controls.Add(details);
             Logger.Debug($"Added collection.");
         }
@@ -200,11 +235,11 @@ namespace OpenLibraryLabelImg.Forms
             details.Click += selectClass;
             details.ClassLabelChanged += updateClassLists;
             pnlClasses.Controls.Add(details);
-            details.Width = pnlClasses.Width;
+            details.Width = pnlClasses.Width - scrollBarWidth;
             Logger.Debug("Added class");
         }
 
-        private async void btnRemoveClass_Click(object sender, EventArgs e)
+        private void btnRemoveClass_Click(object sender, EventArgs e)
         {
             if (selectedClass == null)
             {
@@ -212,7 +247,8 @@ namespace OpenLibraryLabelImg.Forms
             }
 
             Logger.Debug($"Removing class {selectedClass.Id}, requesting confirmation.");
-            if (MessageBox.Show($"Do you want to delete {selectedClass.Title}?","Delete Class", MessageBoxButtons.YesNo) != DialogResult.Yes) {
+            if (MessageBox.Show($"Do you want to delete {selectedClass.Title}?", "Delete Class", MessageBoxButtons.YesNo) != DialogResult.Yes)
+            {
                 Logger.Debug($"Not confirmed, leaving.");
                 return;
             }
@@ -230,45 +266,14 @@ namespace OpenLibraryLabelImg.Forms
 
             context.Classes.Remove(selectedClass);
             selectedClass = null;
-            await context.SaveChangesAsync();
+            context.SaveChanges();
             Logger.Debug($"Saved Changes.");
 
             updateClassLists();
             Logger.Debug($"Classlists updated.");
         }
 
-        public void UpdateProgressbar(int value, int max) {
-            Logger.Debug($"Updating Progressbar {value} / {max}");
-            if (value != -1)
-            {
-                toolStripProgressBar.Maximum = max;
-                toolStripProgressBar.Value = value;
-                toolStripStatusLabel.Text = $"{value} / {max}";
-                toolStripStatusLabel.Visible = true;
-                toolStripProgressBar.Visible = true;
-            }
-            else 
-            {
-                toolStripStatusLabel.Visible = false;
-                toolStripProgressBar.Visible = false;
-            }
-        }
-
-        private void updateClassLists() {
-            foreach (CollectionDetailCell ctrl in pnlCollectionDetails.Controls)
-            {
-                ctrl.RefreshClasses();
-            }
-        }
-
-        private void updateCollections() {
-            foreach (NetDetailCell ctrl in pnlNetworks.Controls)
-            {
-                ctrl.RefreshCollections();
-            }
-        }
-
-        private async void btnRemoveCollection_Click(object sender, EventArgs e)
+        private void btnRemoveCollection_Click(object sender, EventArgs e)
         {
             if (selectedCollection == null)
             {
@@ -295,7 +300,7 @@ namespace OpenLibraryLabelImg.Forms
             context.Images.RemoveRange(context.Images.Where(i => selectedCollection.Images.Contains(i)));
             context.Collections.Remove(context.Collections.Find(selectedCollection.Id));
             selectedCollection = null;
-            await context.SaveChangesAsync();
+            context.SaveChanges();
             Logger.Debug($"Saved Changes.");
 
             updateCollections();
@@ -312,10 +317,10 @@ namespace OpenLibraryLabelImg.Forms
             var details = new NetDetailCell(net, context);
             details.Click += selectNet;
             pnlNetworks.Controls.Add(details);
-            details.Width = pnlNetworks.Width ;
+            details.Width = pnlNetworks.Width - scrollBarWidth;
         }
 
-        private async void btnRemoveNetwork_Click(object sender, EventArgs e)
+        private void btnRemoveNetwork_Click(object sender, EventArgs e)
         {
             if (selectedNetwork == null)
             {
@@ -339,7 +344,7 @@ namespace OpenLibraryLabelImg.Forms
 
             context.Nets.Remove(selectedNetwork);
             selectedNetwork = null;
-            await context.SaveChangesAsync();
+            context.SaveChanges();
             Logger.Debug($"Saved Changes.");
         }
     }
