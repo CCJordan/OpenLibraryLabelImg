@@ -35,4 +35,13 @@ jobs:
         run: |
           nuget restore OpenLibraryLabelImg.sln
           msbuild OpenLibraryLabelImg.sln -t:Build
-          
+
+      - name: Pack build result
+        run: |
+          cd bin\Debug\net48\
+          tar.exe -a -c -f Release.zip ./*
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Release
+          path: bin\Debug\net48\Release.zip
