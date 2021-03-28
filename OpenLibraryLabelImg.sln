@@ -5,25 +5,18 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenLibraryLabelImg", "OpenLibraryLabelImg.csproj", "{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenLibraryLabelImgTests", "..\OpenLibraryLabelImgTests\OpenLibraryLabelImgTests.csproj", "{10A92EAD-3F4B-4739-9862-75B369D4AF72}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		dev|Any CPU = dev|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.dev|Any CPU.ActiveCfg = dev|Any CPU
-		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.dev|Any CPU.Build.0 = dev|Any CPU
 		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77AE22F3-EEB4-43C3-A9AF-2B50ED48CBE5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{10A92EAD-3F4B-4739-9862-75B369D4AF72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{10A92EAD-3F4B-4739-9862-75B369D4AF72}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10A92EAD-3F4B-4739-9862-75B369D4AF72}.dev|Any CPU.ActiveCfg = Debug|Any CPU
-		{10A92EAD-3F4B-4739-9862-75B369D4AF72}.dev|Any CPU.Build.0 = Debug|Any CPU
 		{10A92EAD-3F4B-4739-9862-75B369D4AF72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10A92EAD-3F4B-4739-9862-75B369D4AF72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
