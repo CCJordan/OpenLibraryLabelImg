@@ -28,10 +28,9 @@ jobs:
         with:
           files: bin\Debug\net48\
           recursive: true
-          dest: Release.zip
+          dest: binaries.zip
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "Release.zip"
+          artifacts: "binaries.zip"
           body: "Release compiled by git runner."
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: "v0.1"
