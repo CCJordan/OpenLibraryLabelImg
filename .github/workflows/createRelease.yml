@@ -1,3 +1,5 @@
+name: CreateRelease
+
 # Controls when the action will run. 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -32,3 +34,4 @@ jobs:
           artifacts: "Release.zip"
           body: "Release compiled by git runner."
           token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "v0.1"
