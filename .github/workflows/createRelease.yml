@@ -1,7 +1,24 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 name: CreateRelease
 
-# Controls when the action will run. 
+# Run when a new version tag is pushed
 on:
+  push:
+    tags:        
+      - v*
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -34,5 +51,5 @@ jobs:
           artifacts: "binaries.zip"
           body: "Release compiled by git runner."
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: "v0.1"
+          tag: ${{ github.ref }}
           allowUpdates: true
