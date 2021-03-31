@@ -1,4 +1,4 @@
-﻿using OpenLibraryLabelImg.Data;
+using OpenLibraryLabelImg.Data;
 using OpenLibraryLabelImg.Model;
 using System;
 using System.Collections.Generic;
@@ -34,14 +34,14 @@ namespace OpenLibraryLabelImg.UserControls
             txtDescription.Text = cls.Description;
         }
 
-        private async void txtClassLabel_Leave(object sender, EventArgs e)
+        private void txtClassLabel_Leave(object sender, EventArgs e)
         {
             cls.Title = txtClassLabel.Text;
-            await context.SaveChangesAsync();
+            context.SaveChanges();
             ClassLabelChanged();
         }
 
-        private async void btnColor_Click(object sender, EventArgs e)
+        private void btnColor_Click(object sender, EventArgs e)
         {
             var colorPicker = new ColorDialog
             {
@@ -50,14 +50,14 @@ namespace OpenLibraryLabelImg.UserControls
             if (colorPicker.ShowDialog() == DialogResult.OK) {
                 cls.Color = colorPicker.Color;
                 btnColor.BackColor = cls.Color;
-                await context.SaveChangesAsync();
+                context.SaveChanges();
             }
         }
 
-        private async void txtDescription_Leave(object sender, EventArgs e)
+        private void txtDescription_Leave(object sender, EventArgs e)
         {
             cls.Description = txtDescription.Text;
-            await context.SaveChangesAsync();
+            context.SaveChanges();
         }
     }
 }
